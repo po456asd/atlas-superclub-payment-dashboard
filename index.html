@@ -696,8 +696,6 @@
           <td class="num" data-label="D Sub Total">${fmt(k.subTotal)}</td>
           <td class="num" data-label="E W/H Tax">${fmt(k.whTax)}</td>
           <td class="num total" data-label="F Grand Total">${fmt(k.grandTotal)}</td>
-          <td class="num paid" data-label="Paid">${fmt(k.paid || 0)}</td>
-          <td class="num remain" data-label="Remaining">${fmt(rem)}</td>
           <td style="text-align:center">${k.pdfUrl ? `<button onclick="showPDF('${k.pdfUrl}','${k.name}')" title="View PDF" style="background:none;border:none;cursor:pointer;color:var(--gold);font-size:16px;padding:0">📄</button>` : `<span style="color:rgba(201,169,97,0.2);font-size:12px">—</span>`}</td>
         </tr>`;
     }).join("");
@@ -709,8 +707,6 @@
             <div class="contractor-name">${c.contractor}${overpaidBadge}<small>${c.ref} · ${c.contracts.length} Claim${c.contracts.length>1?'s':''}</small></div>
             <div class="contractor-totals" style="margin-top:12px">
               <div class="total-item"><div class="lbl">Total Claims</div><div class="val">${fmt(cTotal)}</div></div>
-              <div class="total-item"><div class="lbl">Paid</div><div class="val">${fmt(cPaid)}</div></div>
-              <div class="total-item"><div class="lbl">Remaining</div><div class="val remain" style="${remColor}">${fmt(cRem)}</div></div>
               <div class="total-item" style="min-width:180px">
                 <div class="lbl">Payment Progress</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
@@ -735,8 +731,6 @@
               <th class="num">D Sub Total</th>
               <th class="num">E W/H Tax</th>
               <th class="num">F Grand Total</th>
-              <th class="num">Paid</th>
-              <th class="num">Remaining</th>
               <th style="width:40px;text-align:center">PDF</th>
             </tr>
           </thead>
