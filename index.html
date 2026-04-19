@@ -848,7 +848,7 @@
       const cRemaining = cClaims - cPaid;
 
       paymentData.push(['', 'Total Claim (Grand Total)', '', '', '', '', '', cClaims]);
-      paymentData.push(['', 'Lump Sum Received', '', '', '', '', '', cPaid]);
+      paymentData.push(['', 'Contract Payment', '', '', '', '', '', cPaid]);
       paymentData.push(['', 'Total Remaining', '', '', '', '', '', cRemaining]);
       paymentData.push([]); // Empty row
     });
@@ -879,11 +879,8 @@
           totalRetention += k.retention || 0;
         }
       });
-      // Use documented payments for retention paid
-      const contractorPayments = payments.filter(p => p.contractorRef === d.ref);
-      if(contractorPayments.length > 0) {
-        totalRetentionPaid += contractorPayments.reduce((a,b) => a + b.amount, 0);
-      }
+      // Retention payments not yet tracked (always 0)
+      totalRetentionPaid = 0;
     });
     const retentionOutstanding = totalRetention - totalRetentionPaid;
     const retentionPaidPct = totalRetention > 0 ? (totalRetentionPaid / totalRetention * 100) : 0;
@@ -923,9 +920,8 @@
       });
 
       // Contractor subtotals
-      const rClaims = contractsWithRetention.reduce((a,b) => a + (b.grandTotal || 0), 0);
-      const rContractorPayments = payments.filter(p => p.contractorRef === d.ref);
-      const rPaid = rContractorPayments.length > 0 ? rContractorPayments.reduce((a,b) => a + b.amount, 0) : 0;
+      const rClaims = contractsWithRetention.reduce((a,b) => a + (b.retention || 0), 0);
+      const rPaid = 0; // Retention payments not yet tracked
       const rRemaining = rClaims - rPaid;
 
       retentionData.push(['', 'Total Retention (Grand Total)', rClaims]);
