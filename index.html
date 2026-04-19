@@ -288,7 +288,7 @@
       contractor:"Italian-Thai Development PLC",
       ref:"CT-ITD",
       contracts:[
-        {no:1, name:"Main Contract Progress Claim No.18 (Final Payment)", subject:"Progress Claim", ref:"25962025/018", beforeVat:114863.49, retention:0, vat:8040.44, subTotal:122903.93, whTax:3445.90, grandTotal:119458.03, paid:0},
+        {no:1, name:"Main Contract Progress Claim No.18 (Final Payment)", subject:"Progress Claim", ref:"25962025/018", pdfUrl:"pdfs/NO. 25962025-018.pdf", beforeVat:114863.49, retention:0, vat:8040.44, subTotal:122903.93, whTax:3445.90, grandTotal:119458.03, paid:0},
         {no:2, name:"ITD Vos Progress Claim No.14 (Final Payment)", subject:"VO Payment Claim", ref:"25962025/Payment (VO)/014 R.1", beforeVat:1297004.89, retention:77091.61, vat:90790.34, subTotal:1310703.62, whTax:38910.15, grandTotal:1271793.47, paid:0},
         {no:3, name:"ITD Vos of SI-048", subject:"Final Claim", ref:"25962026/Payment (Final Claim)/001", beforeVat:13249560.24, retention:662478.02, vat:927469.22, subTotal:13514551.44, whTax:397486.81, grandTotal:13117064.63, paid:0},
       ]
@@ -513,6 +513,7 @@
           <td class="num total" data-label="F Grand Total">${fmt(k.grandTotal)}</td>
           <td class="num paid" data-label="Paid">${fmt(k.paid || 0)}</td>
           <td class="num remain" data-label="Remaining">${fmt(rem)}</td>
+          <td style="text-align:center">${k.pdfUrl ? `<a href="${k.pdfUrl}" target="_blank" title="View PDF" style="color:var(--gold);font-size:16px;text-decoration:none">📄</a>` : `<span style="color:rgba(201,169,97,0.2);font-size:12px">—</span>`}</td>
         </tr>`;
     }).join("");
 
@@ -551,6 +552,7 @@
               <th class="num">F Grand Total</th>
               <th class="num">Paid</th>
               <th class="num">Remaining</th>
+              <th style="width:40px;text-align:center">PDF</th>
             </tr>
           </thead>
           <tbody>${rows}</tbody>
