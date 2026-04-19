@@ -596,6 +596,14 @@
     btn.classList.add('active');
     document.getElementById('summaryTab-'+tabId).classList.add('active');
 
+    // Change header based on selected tab
+    const headerEl = document.querySelector('#paymentSummary h3');
+    if(tabId === 'retention'){
+      headerEl.textContent = 'Retention Summary';
+    } else {
+      headerEl.textContent = 'Payment Received Summary';
+    }
+
     const host = document.getElementById('contractors');
     if(tabId === 'retention'){
       // Populate retention summary grid
