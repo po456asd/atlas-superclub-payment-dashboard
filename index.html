@@ -791,9 +791,14 @@
     `;
     document.head.appendChild(style);
 
+    // Get current active tab for filename suffix
+    const activeTabBtn = document.querySelector('.summary-tab.active');
+    const currentTab = activeTabBtn.textContent.trim();
+    const capitalizedTab = currentTab.charAt(0).toUpperCase() + currentTab.slice(1);
+
     const opt = {
       margin: [8, 6, 8, 6],
-      filename: 'ATLAS_Superclub_Payment_Dashboard.pdf',
+      filename: `ATLAS_Superclub_${capitalizedTab}_Dashboard.pdf`,
       image: { type: 'jpeg', quality: 0.95 },
       html2canvas: { scale: 1.2, useCORS: true, logging: false, windowHeight: 1400, allowTaint: true },
       jsPDF: { orientation: 'landscape', unit: 'mm', format: 'a4' },
