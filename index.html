@@ -901,7 +901,7 @@
     retentionData.push([]);
 
     // Row 5: Table headers
-    retentionData.push(['No', 'Payment Claim & Reference', 'A Before VAT', 'B Retention', 'C VAT', 'D Sub Total', 'E W/H Tax', 'F Grand Total']);
+    retentionData.push(['No', 'Payment Claim & Reference', 'B Retention']);
 
     // Add contractors with retention > 0
     data.forEach(d => {
@@ -918,12 +918,7 @@
         retentionData.push([
           idx + 1,
           k.ref || '',
-          k.beforeVat || 0,
-          k.retention || 0,
-          k.vat || 0,
-          k.subTotal || 0,
-          k.whTax || 0,
-          k.grandTotal || 0
+          k.retention || 0
         ]);
       });
 
@@ -933,19 +928,19 @@
       const rPaid = rContractorPayments.length > 0 ? rContractorPayments.reduce((a,b) => a + b.amount, 0) : 0;
       const rRemaining = rClaims - rPaid;
 
-      retentionData.push(['', 'Total Claim (Grand Total)', '', '', '', '', '', rClaims]);
-      retentionData.push(['', 'Lump Sum Received', '', '', '', '', '', rPaid]);
-      retentionData.push(['', 'Total Remaining', '', '', '', '', '', rRemaining]);
+      retentionData.push(['', 'Total Claim (Grand Total)', rClaims]);
+      retentionData.push(['', 'Lump Sum Received', rPaid]);
+      retentionData.push(['', 'Total Remaining', rRemaining]);
       retentionData.push([]); // Empty row
     });
 
     const retentionWS = XLSX.utils.aoa_to_sheet(retentionData);
     retentionWS['!cols'] = [
-      {wch: 12}, {wch: 28}, {wch: 15}, {wch: 15}, {wch: 12}, {wch: 15}, {wch: 12}, {wch: 15}
+      {wch: 12}, {wch: 28}, {wch: 15}
     ];
 
     // Apply currency formatting
-    for(let col = 2; col <= 7; col++) {
+    for(let col = 2; col <= 2; col++) {
       for(let row = 3; row <= retentionData.length; row++) {
         const cell = retentionWS[XLSX.utils.encode_col(col) + row];
         if(cell && typeof cell.v === 'number') {
