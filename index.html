@@ -892,7 +892,7 @@
     retentionData.push(['', 'Total Retention', 'Retention Paid', 'Outstanding']);
 
     // Row 3: Summary values
-    retentionData.push(['', totalRetention, totalRetentionPaid, retentionOutstanding]);
+    retentionData.push(['', totalRetention, 0, retentionOutstanding]);
 
     // Row 4: Empty
     retentionData.push([]);
@@ -925,6 +925,7 @@
       const rRemaining = rClaims - rPaid;
 
       retentionData.push(['', 'Total Retention (Grand Total)', rClaims]);
+      retentionData.push(['', 'Total Paid', 0]);
       retentionData.push(['', 'Total Remaining', rRemaining]);
       retentionData.push([]); // Empty row
     });
