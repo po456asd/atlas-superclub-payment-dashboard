@@ -391,6 +391,7 @@
     {
       contractor:"MEGA ENGINEERING ASIA CO., LTD.",
       ref:"CT-MEGA",
+      retention_only:true,
       contracts:[
         {no:26, name:"MEGA Engineering - Mat & Install IPC-001", subject:"Retention Claim", ref:"ATLAS/MAT&INSTALL/IPC-001", pdfUrl:"", beforeVat:0, retention:160318.99, vat:0, subTotal:0, whTax:0, grandTotal:0, paid:0, note:"Request for payment in the past not on final payment account."}
       ]
@@ -577,6 +578,7 @@
   // Contractors
   const host = document.getElementById("contractors");
   data.forEach(c=>{
+    if(c.retention_only) return; // Skip retention-only contractors in payment tab
     let cTotal=0, cPaid=0;
 
     // All contractors (including main)
