@@ -738,21 +738,24 @@
   window.exportPDF = function(){
     const element = document.querySelector('.container');
 
-    // Darken text for PDF export
+    // Darken text and shrink tables for PDF export
     const style = document.createElement('style');
     style.textContent = `
       .container * { color: #000 !important; }
       .payment-label, .card-label, .section-title::before { color: #333 !important; }
-      table { color: #000 !important; }
-      th, td { color: #000 !important; }
+      table { color: #000 !important; font-size: 9px !important; }
+      th, td { color: #000 !important; font-size: 9px !important; padding: 4px 2px !important; }
+      .contractor-name { font-size: 11px !important; }
+      .payment-value { font-size: 12px !important; }
+      .contractor-head { padding: 6px !important; }
     `;
     document.head.appendChild(style);
 
     const opt = {
-      margin: [10, 10, 10, 10],
+      margin: [8, 6, 8, 6],
       filename: 'ATLAS_Superclub_Payment_Dashboard.pdf',
       image: { type: 'jpeg', quality: 0.95 },
-      html2canvas: { scale: 1.5, useCORS: true, logging: false, windowHeight: 1400 },
+      html2canvas: { scale: 1.2, useCORS: true, logging: false, windowHeight: 1400, allowTaint: true },
       jsPDF: { orientation: 'landscape', unit: 'mm', format: 'a4' },
       pagebreak: { avoid: ['.contractor', '.card', '.summary', 'table'], mode: ['avoid-all', 'css', 'legacy'] }
     };
