@@ -336,6 +336,7 @@
     <div class="meta">
       Report Issued by <span>Pratchaya Seela</span>
       <strong id="today">19 April 2026</strong>
+      <button onclick="exportPDF()" style="margin-top:12px;padding:8px 16px;background:var(--gold);color:#000;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:0.2s">📥 Export PDF</button>
     </div>
   </header>
 
@@ -732,6 +733,22 @@
       </div>
     `);
   });
+
+  // PDF Export function
+  window.exportPDF = function(){
+    const element = document.querySelector('.container');
+    const opt = {
+      margin: 10,
+      filename: 'ATLAS_Superclub_Payment_Dashboard.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
+      pagebreak: { avoid: ['.contractor', '.card', '.summary'], mode: ['avoid-all', 'css', 'legacy'] }
+    };
+    html2pdf().set(opt).from(element).save();
+  };
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </body>
 </html>
