@@ -806,7 +806,7 @@
     const paymentData = [];
 
     // Row 1: Title
-    paymentData.push(['PAYMENT RECEIVED SUMMARY']);
+    paymentData.push(['', 'PAYMENT RECEIVED SUMMARY']);
 
     // Row 2: Summary headers
     paymentData.push(['', 'Total Claims Value', 'Total Received', 'Remaining']);
@@ -889,7 +889,7 @@
     const retentionPaidPct = totalRetention > 0 ? (totalRetentionPaid / totalRetention * 100) : 0;
 
     // Row 1: Title
-    retentionData.push(['RETENTION SUMMARY']);
+    retentionData.push(['', 'RETENTION SUMMARY']);
 
     // Row 2: Summary headers
     retentionData.push(['', 'Total Retention', 'Retention Paid', 'Outstanding']);
