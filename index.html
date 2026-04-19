@@ -821,7 +821,7 @@
       if(d.retention_only) return;
 
       // Contractor header row
-      paymentData.push([d.name, `(${d.contracts.length} Claims)`]);
+      paymentData.push(['', d.contractor, `(${d.contracts.length} Claims)`]);
 
       // Contract rows
       d.contracts.forEach((k, idx) => {
@@ -888,7 +888,7 @@
     retentionData.push([]);
 
     // Row 5: Table headers
-    retentionData.push(['No', 'Payment Claim & Reference', 'A Before VAT', 'B Retention', 'C VAT', 'D Sub Total', 'E W/H Tax', 'F Grand Total', 'Paid', 'Remaining']);
+    retentionData.push(['No', 'Payment Claim & Reference', 'A Before VAT', 'B Retention', 'C VAT', 'D Sub Total', 'E W/H Tax', 'F Grand Total']);
 
     // Add contractors with retention > 0
     data.forEach(d => {
@@ -898,7 +898,7 @@
       const contractsWithRetention = d.contracts.filter(k => k.retention > 0);
 
       // Contractor header row
-      retentionData.push([d.name, `(${contractsWithRetention.length} Claims)`]);
+      retentionData.push(['', d.contractor, `(${contractsWithRetention.length} Claims)`]);
 
       // Contract rows (retention > 0 only)
       contractsWithRetention.forEach((k, idx) => {
@@ -910,9 +910,7 @@
           k.vat || 0,
           k.subTotal || 0,
           k.whTax || 0,
-          k.grandTotal || 0,
-          k.paid || 0,
-          (k.grandTotal || 0) - (k.paid || 0)
+          k.grandTotal || 0
         ]);
       });
 
@@ -929,11 +927,11 @@
 
     const retentionWS = XLSX.utils.aoa_to_sheet(retentionData);
     retentionWS['!cols'] = [
-      {wch: 12}, {wch: 28}, {wch: 15}, {wch: 15}, {wch: 12}, {wch: 15}, {wch: 12}, {wch: 15}, {wch: 15}, {wch: 15}
+      {wch: 12}, {wch: 28}, {wch: 15}, {wch: 15}, {wch: 12}, {wch: 15}, {wch: 12}, {wch: 15}
     ];
 
     // Apply currency formatting
-    for(let col = 2; col <= 9; col++) {
+    for(let col = 2; col <= 7; col++) {
       for(let row = 3; row <= retentionData.length; row++) {
         const cell = retentionWS[XLSX.utils.encode_col(col) + row];
         if(cell && typeof cell.v === 'number') {

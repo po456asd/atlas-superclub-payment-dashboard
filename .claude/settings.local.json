@@ -22,7 +22,8 @@
       "Bash(taskkill /PID 25060 /F)",
       "PowerShell(Stop-Process -Id 25060 -Force)",
       "Bash(perl -i -pe 's/^<script>$/<script>\\\\n  \\\\/\\\\/ Set update time and build ID\\\\n  const now = new Date\\(\\);\\\\n  const updateTime = now.toLocaleString\\(\"en-US\", {hour: \"2-digit\", minute: \"2-digit\", second: \"2-digit\", hour12: true}\\);\\\\n  const buildId = \"v\" + now.toISOString\\(\\).substr\\(0,10\\).replace\\(/-/g,\"\"\\);\\\\n  document.getElementById\\(\"updateInfo\"\\).innerHTML = `Updated: ${updateTime} | Build: ${buildId}`;\\\\n/ if $. == 377' index.html)",
-      "Bash(perl -i.bak -ne 'print; if \\($. == 377\\) { while\\(<>\\) { print; last; } open\\(F, \"</tmp/update_info.txt\"\\) or die; while\\(<F>\\) { print } close\\(F\\); }' index.html)"
+      "Bash(perl -i.bak -ne 'print; if \\($. == 377\\) { while\\(<>\\) { print; last; } open\\(F, \"</tmp/update_info.txt\"\\) or die; while\\(<F>\\) { print } close\\(F\\); }' index.html)",
+      "Bash(python3)"
     ]
   }
 }
