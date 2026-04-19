@@ -272,6 +272,19 @@
     </div>
   </div>
 
+  <!-- PDF Viewer Modal -->
+  <div id="pdfModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:2000;align-items:center;justify-content:center" onclick="if(event.target===this)closePDF()">
+    <div style="position:relative;width:90vw;height:92vh;background:#1a1a1a;border:1px solid rgba(201,169,97,0.3);display:flex;flex-direction:column">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid rgba(201,169,97,0.2);flex-shrink:0">
+        <span id="pdfTitle" style="color:var(--gold);font-family:var(--font-head);font-size:12px;letter-spacing:1.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:70%"></span>
+        <div style="display:flex;gap:10px;flex-shrink:0">
+          <a id="pdfDownload" href="#" download style="color:var(--gold);background:rgba(201,169,97,0.1);border:1px solid rgba(201,169,97,0.35);padding:5px 14px;font-size:11px;letter-spacing:1px;text-decoration:none;cursor:pointer">⬇ DOWNLOAD</a>
+          <button onclick="closePDF()" style="background:none;border:1px solid rgba(201,169,97,0.35);color:var(--gold);font-size:18px;width:32px;height:32px;cursor:pointer;line-height:1">&times;</button>
+        </div>
+      </div>
+      <iframe id="pdfFrame" src="" style="flex:1;border:none;width:100%"></iframe>
+    </div>
+  </div>
   <!-- Contractors -->
   <div class="section-title"><h2>Contractors &amp; Contracts</h2></div>
   <section id="contractors"></section>
@@ -366,7 +379,7 @@
       contractor:"MASTERCRAFT CO., LTD.",
       ref:"CT-MASTERCRAFT",
       contracts:[
-        {no:25, name:"MasterCraftThai", subject:"Payment Claim", ref:"MC-AL-001", beforeVat:35550.00, retention:0, vat:2488.50, subTotal:38038.50, whTax:1066.50, grandTotal:36972.00, paid:0, note:"Unknown Status"},
+        {no:25, name:"MasterCraftThai", subject:"Payment Claim", ref:"MC-AL-001", pdfUrl:"pdfs/10.MCraft/1.MCRAFT Final Account VOs.pdf", beforeVat:35550.00, retention:0, vat:2488.50, subTotal:38038.50, whTax:1066.50, grandTotal:36972.00, paid:0, note:"Unknown Status"},
       ]
     }
   ];
@@ -443,6 +456,18 @@
   `;
 
   // Modal functions
+  window.showPDF = function(url, name){
+    const modal = document.getElementById('pdfModal');
+    document.getElementById('pdfFrame').src = url;
+    document.getElementById('pdfTitle').textContent = name || url;
+    document.getElementById('pdfDownload').href = url;
+    document.getElementById('pdfDownload').download = url.split('/').pop();
+    modal.style.display = 'flex';
+  };
+  window.closePDF = function(){
+    document.getElementById('pdfModal').style.display = 'none';
+    document.getElementById('pdfFrame').src = '';
+  };
   window.closeEvidenceModal = function(){
     document.getElementById("evidenceModal").classList.remove("active");
   };
@@ -513,7 +538,7 @@
           <td class="num total" data-label="F Grand Total">${fmt(k.grandTotal)}</td>
           <td class="num paid" data-label="Paid">${fmt(k.paid || 0)}</td>
           <td class="num remain" data-label="Remaining">${fmt(rem)}</td>
-          <td style="text-align:center">${k.pdfUrl ? `<a href="${k.pdfUrl}" target="_blank" title="View PDF" style="color:var(--gold);font-size:16px;text-decoration:none">📄</a>` : `<span style="color:rgba(201,169,97,0.2);font-size:12px">—</span>`}</td>
+          <td style="text-align:center">${k.pdfUrl ? `<button onclick="showPDF('${k.pdfUrl}','${k.name}')" title="View PDF" style="background:none;border:none;cursor:pointer;color:var(--gold);font-size:16px;padding:0">📄</button>` : `<span style="color:rgba(201,169,97,0.2);font-size:12px">—</span>`}</td>
         </tr>`;
     }).join("");
 
