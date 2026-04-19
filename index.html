@@ -820,6 +820,9 @@
     // Row 5: Table headers
     paymentData.push(['No', 'Payment Claim & Reference', 'A Before VAT', 'B Retention', 'C VAT', 'D Sub Total', 'E W/H Tax', 'F Grand Total']);
 
+    // Row 6: Empty row
+    paymentData.push([]);
+
     // Add contractors and contracts
     data.forEach(d => {
       if(d.retention_only) return;
@@ -899,6 +902,9 @@
 
     // Row 5: Table headers
     retentionData.push(['No', 'Payment Claim & Reference', 'B Retention']);
+
+    // Row 6: Empty row
+    retentionData.push([]);
 
     // Add contractors with retention > 0
     data.forEach(d => {
