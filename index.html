@@ -382,7 +382,6 @@
   const now = new Date();
   const updateTime = now.toLocaleString("en-US", {hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true});
   const buildId = "v" + now.toISOString().substr(0,10).replace(/-/g,"");
-  document.getElementById("updateInfo").innerHTML = `Updated: ${updateTime} | Build: ${buildId}`;
 
   // Track daily push counter (R.X format)
   const today = now.toISOString().substr(0,10);
@@ -396,6 +395,9 @@
   }
 
   localStorage.setItem('buildCounter', JSON.stringify({date: today, count: revisionCounter}));
+
+  // Display update info, build ID, and revision counter on same line
+  document.getElementById("updateInfo").innerHTML = `Updated: ${updateTime} | Build: ${buildId} | R.${revisionCounter}`;
   document.getElementById("revisionCounter").textContent = `R.${revisionCounter}`;
 
   const data = [
