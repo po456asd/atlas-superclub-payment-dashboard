@@ -839,7 +839,8 @@
 
       // Contractor subtotals
       const cClaims = d.contracts.reduce((a,b) => a + (b.grandTotal || 0), 0);
-      const cPaid = d.contracts.reduce((a,b) => a + (b.paid || 0), 0);
+      const contractorPayments = payments.filter(p => p.contractorRef === d.ref);
+      const cPaid = contractorPayments.length > 0 ? contractorPayments.reduce((a,b) => a + b.amount, 0) : 0;
       const cRemaining = cClaims - cPaid;
 
       paymentData.push(['Total Claim (Grand Total)', '', cClaims]);
@@ -920,7 +921,8 @@
 
       // Contractor subtotals
       const rClaims = contractsWithRetention.reduce((a,b) => a + (b.grandTotal || 0), 0);
-      const rPaid = contractsWithRetention.reduce((a,b) => a + (b.paid || 0), 0);
+      const rContractorPayments = payments.filter(p => p.contractorRef === d.ref);
+      const rPaid = rContractorPayments.length > 0 ? rContractorPayments.reduce((a,b) => a + b.amount, 0) : 0;
       const rRemaining = rClaims - rPaid;
 
       retentionData.push(['Total Claim', '', rClaims]);
