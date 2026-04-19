@@ -516,6 +516,8 @@
   // Render Payment Summary
   const paymentSummaryHost = document.getElementById("paymentSummary");
   let evidenceBtn = `<button class="evidence-btn" onclick="showEvidencePicker()">📄 View Payment Evidence</button>`;
+  const balanceIsComplete = Math.round(balancePct) === 100;
+  const balanceBarColor = balancePct > 100 ? '#cc2222' : (balanceIsComplete ? '#22aa22' : '#888888');
 
   paymentSummaryHost.innerHTML = `
     <h3>Payment Received Summary</h3>
@@ -543,7 +545,7 @@
         <div class="payment-value">${balancePct.toFixed(1)}%</div>
         <div style="width:100%;margin-top:10px">
           <div style="height:8px;background:#fff;border:1px solid #999;overflow:hidden;border-radius:1px">
-            <div style="height:100%;width:${Math.min(100,balancePct)}%;background:${balancePct>100?'#cc2222':'#888888'};border-radius:0;transition:width 0.6s ease"></div>
+            <div style="height:100%;width:${Math.min(100,balancePct)}%;background:${balanceBarColor};border-radius:0;transition:width 0.6s ease"></div>
           </div>
           <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin-top:4px;letter-spacing:1px">
             <span>0%</span><span>50%</span><span>100%</span>
@@ -671,7 +673,9 @@
 
     const isOverpaid = cTotal > 0 && cPaid > cTotal;
     const overpaidBadge = isOverpaid ? ` <span style="color:#ff4444;font-size:10px;font-weight:700;letter-spacing:1.5px;vertical-align:middle;background:rgba(255,68,68,0.1);padding:2px 8px;border:1px solid rgba(255,68,68,0.35);margin-left:8px">OVERPAID</span>` : "";
-    const barColor = isOverpaid ? "#cc2222" : "#888888";
+    const paidPct = cTotal > 0 ? (cPaid / cTotal * 100) : 0;
+    const isComplete = Math.round(paidPct) === 100;
+    const barColor = isOverpaid ? "#cc2222" : (isComplete ? "#22aa22" : "#888888");
     const pctColor = isOverpaid ? "#ff4444" : "var(--gold)";
     const remColor = isOverpaid ? "color:#ff4444" : "";
 
