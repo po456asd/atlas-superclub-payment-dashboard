@@ -337,7 +337,6 @@
       Report Issued by <span>Pratchaya Seela</span>
       <strong id="today">19 April 2026</strong>
       <div id="updateInfo" style="font-size:10px;color:var(--muted);margin-top:4px;letter-spacing:0.5px"></div>
-      <div id="revisionInfo" style="font-size:10px;color:var(--gold);margin-top:2px;letter-spacing:1px;font-weight:500"><span id="revisionCounter">R.0</span></div>
       <button onclick="exportPDF()" style="margin-top:12px;padding:8px 16px;background:var(--gold);color:#000;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:0.2s">📥 Export PDF</button>
       <button onclick="exportExcel()" style="margin-top:12px;margin-left:8px;padding:8px 16px;background:var(--gold);color:#000;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:0.2s">📊 Export Excel</button>
     </div>
@@ -398,7 +397,6 @@
 
   // Display update info, build ID, and revision counter on same line
   document.getElementById("updateInfo").innerHTML = `Updated: ${updateTime} | Build: ${buildId} | R.${revisionCounter}`;
-  document.getElementById("revisionCounter").textContent = `R.${revisionCounter}`;
 
   const data = [
     {
