@@ -818,7 +818,7 @@
     paymentData.push([]);
 
     // Row 5: Table headers
-    paymentData.push(['No', 'Payment Claim & Reference', 'A Before VAT', 'B Retention', 'C VAT', 'D Sub Total', 'E W/H Tax', 'F Grand Total', 'Paid', 'Remaining']);
+    paymentData.push(['No', 'Payment Claim & Reference', 'A Before VAT', 'B Retention', 'C VAT', 'D Sub Total', 'E W/H Tax', 'F Grand Total']);
 
     // Add contractors and contracts
     data.forEach(d => {
@@ -837,40 +837,24 @@
           k.vat || 0,
           k.subTotal || 0,
           k.whTax || 0,
-          k.grandTotal || 0,
-          k.paid || 0,
-          (k.grandTotal || 0) - (k.paid || 0)
+          k.grandTotal || 0
         ]);
       });
 
       // Contractor subtotals
       const cClaims = d.contracts.reduce((a,b) => a + (b.grandTotal || 0), 0);
-      const cPaid = d.contracts.reduce((a,b) => a + (b.paid || 0), 0);
-      const cRemaining = cClaims - cPaid;
 
       paymentData.push(['Total Claim', '', cClaims]);
-      paymentData.push(['Received', '', cPaid]);
-      paymentData.push(['Remaining', '', cRemaining]);
       paymentData.push([]); // Empty row
     });
 
     const paymentWS = XLSX.utils.aoa_to_sheet(paymentData);
     paymentWS['!cols'] = [
-      {wch: 12}, {wch: 28}, {wch: 15}, {wch: 15}, {wch: 12}, {wch: 15}, {wch: 12}, {wch: 15}, {wch: 15}, {wch: 15}
+      {wch: 12}, {wch: 28}, {wch: 15}, {wch: 15}, {wch: 12}, {wch: 15}, {wch: 12}, {wch: 15}
     ];
 
-    // Format currency cells
-    const formatCurrency = (ws, col, startRow, endRow) => {
-      for(let r = startRow; r <= endRow; r++) {
-        const cell = ws[XLSX.utils.encode_col(col) + r];
-        if(cell && typeof cell.v === 'number') {
-          cell.z = '#,##0.00';
-        }
-      }
-    };
-
-    // Apply currency formatting to columns C-J (indices 2-9) starting from row 3
-    for(let col = 2; col <= 9; col++) {
+    // Apply currency formatting to columns C-H (indices 2-7) for numeric values
+    for(let col = 2; col <= 7; col++) {
       for(let row = 3; row <= paymentData.length; row++) {
         const cell = paymentWS[XLSX.utils.encode_col(col) + row];
         if(cell && typeof cell.v === 'number') {
