@@ -928,8 +928,7 @@
       const rPaid = rContractorPayments.length > 0 ? rContractorPayments.reduce((a,b) => a + b.amount, 0) : 0;
       const rRemaining = rClaims - rPaid;
 
-      retentionData.push(['', 'Total Claim (Grand Total)', rClaims]);
-      retentionData.push(['', 'Lump Sum Received', rPaid]);
+      retentionData.push(['', 'Total Retention (Grand Total)', rClaims]);
       retentionData.push(['', 'Total Remaining', rRemaining]);
       retentionData.push([]); // Empty row
     });
