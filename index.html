@@ -542,8 +542,8 @@
         <div class="payment-label">Overall Paid</div>
         <div class="payment-value">${balancePct.toFixed(1)}%</div>
         <div style="width:100%;margin-top:10px">
-          <div style="height:8px;background:rgba(201,169,97,0.12);overflow:hidden;border-radius:1px">
-            <div style="height:100%;width:${Math.min(100,balancePct)}%;background:linear-gradient(90deg,var(--gold-dim),var(--gold-bright));box-shadow:0 0 10px rgba(201,169,97,0.5);border-radius:1px;transition:width 0.6s ease"></div>
+          <div style="height:8px;background:#fff;border:1px solid #999;overflow:hidden;border-radius:1px">
+            <div style="height:100%;width:${Math.min(100,balancePct)}%;background:${balancePct>100?'#cc2222':'#888888'};border-radius:0;transition:width 0.6s ease"></div>
           </div>
           <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin-top:4px;letter-spacing:1px">
             <span>0%</span><span>50%</span><span>100%</span>
@@ -671,7 +671,7 @@
 
     const isOverpaid = cTotal > 0 && cPaid > cTotal;
     const overpaidBadge = isOverpaid ? ` <span style="color:#ff4444;font-size:10px;font-weight:700;letter-spacing:1.5px;vertical-align:middle;background:rgba(255,68,68,0.1);padding:2px 8px;border:1px solid rgba(255,68,68,0.35);margin-left:8px">OVERPAID</span>` : "";
-    const barColor = isOverpaid ? "linear-gradient(90deg,#cc2222,#ff4444)" : "linear-gradient(90deg,var(--gold-dim),var(--gold-bright))";
+    const barColor = isOverpaid ? "#cc2222" : "#888888";
     const pctColor = isOverpaid ? "#ff4444" : "var(--gold)";
     const remColor = isOverpaid ? "color:#ff4444" : "";
 
@@ -709,8 +709,8 @@
               <div class="total-item" style="min-width:180px">
                 <div class="lbl">Payment Progress</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
-                  <div style="flex:1;height:6px;background:rgba(201,169,97,0.12);overflow:hidden;border-radius:1px">
-                    <div style="height:100%;width:${Math.min(100,Math.max(0,(cPaid/cTotal*100)))}%;background:${barColor};box-shadow:0 0 8px rgba(201,169,97,0.4);border-radius:1px;transition:width 0.6s ease"></div>
+                  <div style="flex:1;height:6px;background:#fff;border:1px solid #999;overflow:hidden;border-radius:1px">
+                    <div style="height:100%;width:${Math.min(100,Math.max(0,(cPaid/cTotal*100)))}%;background:${barColor};border-radius:0;transition:width 0.6s ease"></div>
                   </div>
                   <span style="font-size:11px;color:${pctColor};white-space:nowrap;min-width:38px;text-align:right">${cTotal ? (cPaid/cTotal*100).toFixed(1) : '0.0'}%</span>
                 </div>
