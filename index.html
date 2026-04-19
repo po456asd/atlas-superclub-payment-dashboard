@@ -842,7 +842,7 @@
       const cPaid = d.contracts.reduce((a,b) => a + (b.paid || 0), 0);
       const cRemaining = cClaims - cPaid;
 
-      paymentData.push(['Total Claim', '', cClaims]);
+      paymentData.push(['Total Claim (Grand Total)', '', cClaims]);
       paymentData.push(['Lump Sum Received', '', cPaid]);
       paymentData.push(['Total Remaining', '', cRemaining]);
       paymentData.push([]); // Empty row
