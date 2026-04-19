@@ -861,13 +861,12 @@
       {wch: 12}, {wch: 28}, {wch: 15}, {wch: 15}, {wch: 12}, {wch: 15}, {wch: 12}, {wch: 15}
     ];
 
-    // Apply currency formatting to columns C-H (indices 2-7) for numeric values
-    for(let col = 2; col <= 7; col++) {
-      for(let row = 3; row <= paymentData.length; row++) {
-        const cell = paymentWS[XLSX.utils.encode_col(col) + row];
-        if(cell && typeof cell.v === 'number') {
-          cell.z = '#,##0.00';
-        }
+    // Apply currency formatting to all numeric cells
+    for(let key in paymentWS) {
+      if(key[0] === '!') continue; // Skip metadata keys
+      const cell = paymentWS[key];
+      if(cell && typeof cell.v === 'number') {
+        cell.z = '#,##0.00';
       }
     }
 
@@ -941,13 +940,12 @@
       {wch: 12}, {wch: 28}, {wch: 15}
     ];
 
-    // Apply currency formatting
-    for(let col = 2; col <= 2; col++) {
-      for(let row = 3; row <= retentionData.length; row++) {
-        const cell = retentionWS[XLSX.utils.encode_col(col) + row];
-        if(cell && typeof cell.v === 'number') {
-          cell.z = '#,##0.00';
-        }
+    // Apply currency formatting to all numeric cells
+    for(let key in retentionWS) {
+      if(key[0] === '!') continue; // Skip metadata keys
+      const cell = retentionWS[key];
+      if(cell && typeof cell.v === 'number') {
+        cell.z = '#,##0.00';
       }
     }
 
