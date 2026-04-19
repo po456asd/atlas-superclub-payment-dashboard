@@ -839,8 +839,12 @@
 
       // Contractor subtotals
       const cClaims = d.contracts.reduce((a,b) => a + (b.grandTotal || 0), 0);
+      const cPaid = d.contracts.reduce((a,b) => a + (b.paid || 0), 0);
+      const cRemaining = cClaims - cPaid;
 
       paymentData.push(['Total Claim', '', cClaims]);
+      paymentData.push(['Lump Sum Received', '', cPaid]);
+      paymentData.push(['Total Remaining', '', cRemaining]);
       paymentData.push([]); // Empty row
     });
 
@@ -920,8 +924,8 @@
       const rRemaining = rClaims - rPaid;
 
       retentionData.push(['Total Claim', '', rClaims]);
-      retentionData.push(['Received', '', rPaid]);
-      retentionData.push(['Remaining', '', rRemaining]);
+      retentionData.push(['Lump Sum Received', '', rPaid]);
+      retentionData.push(['Total Remaining', '', rRemaining]);
       retentionData.push([]); // Empty row
     });
 
