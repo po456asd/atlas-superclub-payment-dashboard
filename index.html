@@ -249,6 +249,78 @@
   .summary-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
   .summary-tab-content{display:none}
   .summary-tab-content.active{display:block}
+
+  /* Print styles */
+  @media print {
+    * { margin:0; padding:0; }
+    html, body { margin:0; padding:0; width:100%; height:auto; background:white !important; }
+    .container { max-width:100%; padding:20mm; background:white; }
+    body { background:white !important; }
+
+    /* Hide interactive elements */
+    button, .evidence-btn, .summary-tabs, .pdfModal, .evidenceModal { display:none !important; }
+
+    /* Typography for print */
+    * { color:black !important; background:white !important; }
+    header, .section-title, h1, h2, h3 { color:#000 !important; }
+
+    /* Cards and summary */
+    .card { border:1px solid #999 !important; background:white !important; page-break-inside:avoid; }
+    .summary { page-break-inside:avoid; }
+
+    /* Tables */
+    table { width:100%; border-collapse:collapse; page-break-inside:avoid; margin-bottom:20px; }
+    thead { display:table-header-group; }
+    tbody { display:table-row-group; }
+    tr { page-break-inside:avoid; page-break-after:auto; }
+    th, td {
+      border:1px solid #999 !important;
+      padding:8px !important;
+      text-align:left;
+      color:black !important;
+      background:white !important;
+      font-size:11px;
+    }
+    th {
+      background:#f5f5f5 !important;
+      font-weight:bold !important;
+      color:black !important;
+    }
+
+    /* Contractors */
+    .contractor { page-break-inside:avoid; margin-bottom:20px; border:1px solid #999; }
+    .contractor-head { page-break-inside:avoid; }
+
+    /* Section titles */
+    .section-title { color:black !important; margin-bottom:15px; }
+    .section-title::before, .section-title::after { background:#999 !important; }
+
+    /* Payment summary */
+    .payment-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; page-break-inside:avoid; }
+    .payment-item { border:1px solid #999 !important; padding:10px !important; background:white !important; page-break-inside:avoid; }
+    .payment-label { font-size:10px; color:#666 !important; }
+    .payment-value { font-size:16px; font-weight:bold; color:black !important; }
+
+    /* Progress bars - solid in print */
+    div[style*="height:100%"][style*="width:"] { background:#333 !important; }
+
+    /* Remove gradients */
+    div { background-image:none !important; }
+
+    /* Ensure text visibility */
+    body { color:black !important; }
+    a { color:black !important; text-decoration:none; }
+
+    /* Page breaks */
+    header { page-break-after:avoid; }
+    #contractors { page-break-before:auto; }
+
+    /* Footer */
+    footer { page-break-inside:avoid; }
+
+    /* Modal hide */
+    #pdfModal, #evidenceModal { display:none !important; }
+  }
   </style>
 </head>
 <body>
