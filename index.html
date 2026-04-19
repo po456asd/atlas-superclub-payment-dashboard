@@ -243,7 +243,13 @@
       letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);
     }
   }
-</style>
+
+  .summary-tabs{display:flex;gap:0;margin-bottom:20px;border-bottom:1px solid var(--gold-dim)}
+  .summary-tab{background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;padding:8px 20px;cursor:pointer;margin-bottom:-1px;transition:0.2s}
+  .summary-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+  .summary-tab-content{display:none}
+  .summary-tab-content.active{display:block}
+  </style>
 </head>
 <body>
 <div class="container">
@@ -301,8 +307,8 @@
       contractor:"Italian-Thai Development PLC",
       ref:"CT-ITD",
       contracts:[
-        {no:1, name:"Main Contract Progress Claim No.18 (Final Payment)", subject:"Progress Claim", ref:"25962025/018", pdfUrl:"pdfs/1.ITD/NO. 25962025-018.pdf", beforeVat:114863.49, retention:0, vat:8040.44, subTotal:122903.93, whTax:3445.90, grandTotal:119458.03, paid:0},
-        {no:2, name:"ITD Vos Progress Claim No.14 (Final Payment)", subject:"VO Payment Claim", ref:"25962025/Payment (VO)/014 R.1", pdfUrl:"pdfs/1.ITD/NO. 25962025-Payment (VO)-014 R.1.pdf", beforeVat:1297004.89, retention:77091.61, vat:90790.34, subTotal:1310703.62, whTax:38910.15, grandTotal:1271793.47, paid:0},
+        {no:1, name:"Main Contract Progress Claim No.18 (Final Payment)", subject:"Progress Claim", ref:"25962025/018", pdfUrl:"pdfs/1.ITD/NO. 25962025-018.pdf", beforeVat:114863.49, retention:2614947.00, vat:8040.44, subTotal:122903.93, whTax:3445.90, grandTotal:119458.03, paid:0},
+        {no:2, name:"ITD Vos Progress Claim No.14 (Final Payment)", subject:"VO Payment Claim", ref:"25962025/Payment (VO)/014 R.1", pdfUrl:"pdfs/1.ITD/NO. 25962025-Payment (VO)-014 R.1.pdf", beforeVat:1297004.89, retention:2565411.65, vat:90790.34, subTotal:1310703.62, whTax:38910.15, grandTotal:1271793.47, paid:0},
         {no:3, name:"ITD Vos of SI-048", subject:"Final Claim", ref:"25962026/Payment (Final Claim)/001", pdfUrl:"pdfs/1.ITD/NO. 25962026-Payment (Final Claim)-001.pdf", beforeVat:13249560.24, retention:662478.02, vat:927469.22, subTotal:13514551.44, whTax:397486.81, grandTotal:13117064.63, paid:0},
       ]
     },
@@ -310,8 +316,8 @@
       contractor:"XTi Thailand Co., Ltd.",
       ref:"CT-XTI",
       contracts:[
-        {no:4, name:"XTI Progress Claim No.8 (Final Payment)", subject:"Progress Claim", ref:"Xti/ASC/Payment/008", pdfUrl:"pdfs/2.XTI/1.NO. Xti-ASC-Payment-008.pdf", beforeVat:1314339.83, retention:93881.41, vat:92003.79, subTotal:1312462.21, whTax:39430.18, grandTotal:1273032.03, paid:0},
-        {no:5, name:"XTI Vos Progress Claim No.010 (Final Payment)", subject:"VO Payment Claim", ref:"Xti/ASC/Claim VO/010", pdfUrl:"pdfs/2.XTI/2.NO. Xti-ASC-Claim VO-010.pdf", beforeVat:3351702.91, retention:20880.80, vat:234619.20, subTotal:3565441.31, whTax:100551.09, grandTotal:3464890.22, paid:0},
+        {no:4, name:"XTI Progress Claim No.8 (Final Payment)", subject:"Progress Claim", ref:"Xti/ASC/Payment/008", pdfUrl:"pdfs/2.XTI/1.NO. Xti-ASC-Payment-008.pdf", beforeVat:1314339.83, retention:0, vat:92003.79, subTotal:1312462.21, whTax:39430.18, grandTotal:1273032.03, paid:0},
+        {no:5, name:"XTI Vos Progress Claim No.010 (Final Payment)", subject:"VO Payment Claim", ref:"Xti/ASC/Claim VO/010", pdfUrl:"pdfs/2.XTI/2.NO. Xti-ASC-Claim VO-010.pdf", beforeVat:3351702.91, retention:0, vat:234619.20, subTotal:3565441.31, whTax:100551.09, grandTotal:3464890.22, paid:0},
         {no:6, name:"XTI BILL Warehouse and Delivery Services (25Dec2025)", subject:"BILL Payment Claim", ref:"BI2512001", pdfUrl:"pdfs/2.XTI/3.BI2512001-Inv2512001 -  Warehousing and Delivering Service.pdf", beforeVat:83225.50, retention:0, vat:5825.79, subTotal:89051.29, whTax:2496.77, grandTotal:86554.52, paid:0},
         {no:7, name:"XTI BILL Software for ATLAS Superclub (25Dec2025)", subject:"BILL Payment Claim", ref:"BI2512002", pdfUrl:"pdfs/2.XTI/4.BI2512002-Inv2512002 -  Software  For Atlas Supper Club Project Payment 100%..pdf", beforeVat:32920.98, retention:0, vat:2304.47, subTotal:35225.45, whTax:987.63, grandTotal:34237.82, paid:0},
         {no:8, name:"XTI BILL Cost of goods for ATLAS Superclub (25Dec2025)", subject:"BILL Payment Claim", ref:"BI2512003", pdfUrl:"pdfs/2.XTI/5.BI2512003-Inv2512003 -  Cost Of Goods For Atlas.pdf", beforeVat:38140.19, retention:0, vat:2669.81, subTotal:40810.00, whTax:1144.21, grandTotal:39665.80, paid:0},
@@ -321,20 +327,20 @@
       contractor:"BANGKOK DEC - CON PUBLIC COMPANY LIMITED",
       ref:"CT-BKD",
       contracts:[
-        {no:9, name:"BKD Payment Claim No 09", subject:"Payment Claim", ref:"BKD/ASC/Payment/009", pdfUrl:"pdfs/3.BKD/1.BKD Main construction Payment Claim No.9.pdf", beforeVat:4860477.05, retention:405039.75, vat:340233.40, subTotal:4795670.70, whTax:145814.31, grandTotal:4649856.39, paid:0},
-        {no:10, name:"BKD VO of SI-040", subject:"Payment Claim", ref:"Claim VO. No. 1 VO of Final Account SI-040", pdfUrl:"pdfs/3.BKD/2.Claim VO. No. 1 VO of Final Account SI-040.pdf", beforeVat:1618086.23, retention:80904.31, vat:113266.04, subTotal:1650447.96, whTax:48542.59, grandTotal:1601905.37, paid:0},
-        {no:11, name:"BKD VO of SI-050", subject:"Payment Claim", ref:"Claim VO. No. 2 VO of Final Account SI-050", pdfUrl:"pdfs/3.BKD/3.Claim VO. No. 2 VO of Final Account SI-050.pdf", beforeVat:1168798.40, retention:58439.92, vat:81815.89, subTotal:1192174.37, whTax:35063.95, grandTotal:1157110.42, paid:0},
+        {no:9, name:"BKD Payment Claim No 09", subject:"Payment Claim", ref:"BKD/ASC/Payment/009", pdfUrl:"pdfs/3.BKD/1.BKD Main construction Payment Claim No.9.pdf", beforeVat:4860477.05, retention:0, vat:340233.40, subTotal:4795670.70, whTax:145814.31, grandTotal:4649856.39, paid:0},
+        {no:10, name:"BKD VO of SI-040", subject:"Payment Claim", ref:"Claim VO. No. 1 VO of Final Account SI-040", pdfUrl:"pdfs/3.BKD/2.Claim VO. No. 1 VO of Final Account SI-040.pdf", beforeVat:1618086.23, retention:0, vat:113266.04, subTotal:1650447.96, whTax:48542.59, grandTotal:1601905.37, paid:0},
+        {no:11, name:"BKD VO of SI-050", subject:"Payment Claim", ref:"Claim VO. No. 2 VO of Final Account SI-050", pdfUrl:"pdfs/3.BKD/3.Claim VO. No. 2 VO of Final Account SI-050.pdf", beforeVat:1168798.40, retention:0, vat:81815.89, subTotal:1192174.37, whTax:35063.95, grandTotal:1157110.42, paid:0},
       ]
     },
     {
       contractor:"ME ASIA (THAILAND) COMPANY LIMITED",
       ref:"CT-MEASIA",
       contracts:[
-        {no:12, name:"MEASIA Main Contract Progress Claim", subject:"Payment Claim", ref:"M&E/ASC/RFA/Payment/013", pdfUrl:"pdfs/4.MEASIA/1.20260317M-E-ASC-RFA-Pay ment- 013 (MEP SYSTEM).pdf", beforeVat:3463702.63, retention:204665.17, vat:242459.18, subTotal:3501496.64, whTax:103911.07, grandTotal:3397585.57, paid:0, note:"M&E-ASC-MEMO-042 changed price to HWG's calcuration"},
-        {no:13, name:"MEASIA VO-AC Progress Claim", subject:"VO Payment Claim", ref:"M&E-ASC-RFA-Payment Claim VO-AC-015", pdfUrl:"pdfs/4.MEASIA/2.M-E-ASC-RFA-Payment VO-AC-015 (TOTAL SYSTEM).pdf", beforeVat:1103352.91, retention:64903.11, vat:77234.70, subTotal:1115684.50, whTax:33100.59, grandTotal:1082583.91, paid:0},
-        {no:14, name:"MEASIA M&E-ASC-RFA-Payment Claim VO-EE-005 (MEASIA-016)", subject:"VO Payment Claim", ref:"M&E-ASC-RFA-Payment Claim VO-EE-005", pdfUrl:"pdfs/4.MEASIA/3.M_E-ASC-RFA-Payment Claim VO-EE-005  VO TR.800 Kva to TR.1200 Kva NO. 2.pdf", beforeVat:19561.73, retention:978.09, vat:1369.32, subTotal:19952.96, whTax:586.85, grandTotal:19366.11, paid:0},
-        {no:15, name:"MEASIA M&E-ASC-RFA-Payment Claim VO-EE-006 (MEASIA-015)", subject:"VO Payment Claim", ref:"M&E-ASC-RFA-Payment Claim VO-EE-006", pdfUrl:"pdfs/4.MEASIA/4.M_E-ASC-RFA-Payment Claim VO-EE-006  VO AVL  cable tray - wireway (BELT) No.3.pdf", beforeVat:300527.82, retention:15026.39, vat:21036.95, subTotal:306538.38, whTax:9015.84, grandTotal:297522.54, paid:0},
-        {no:16, name:"MEASIA M&E-ASC-RFA-Payment Claim VO-EE-007 (MEASIA-013)", subject:"VO Payment Claim", ref:"M&E-ASC-RFA-Payment Claim VO-EE-007", pdfUrl:"pdfs/4.MEASIA/5.M_E-ASC-RFA-Payment Claim VO-EE-007  VO  AVL Trench.pdf", beforeVat:276638.25, retention:13831.91, vat:19364.68, subTotal:282171.02, whTax:8299.15, grandTotal:273871.87, paid:0},
+        {no:12, name:"MEASIA Main Contract Progress Claim", subject:"Payment Claim", ref:"M&E/ASC/RFA/Payment/013", pdfUrl:"pdfs/4.MEASIA/1.20260317M-E-ASC-RFA-Pay ment- 013 (MEP SYSTEM).pdf", beforeVat:3463702.63, retention:0, vat:242459.18, subTotal:3501496.64, whTax:103911.07, grandTotal:3397585.57, paid:0, note:"M&E-ASC-MEMO-042 changed price to HWG's calcuration"},
+        {no:13, name:"MEASIA VO-AC Progress Claim", subject:"VO Payment Claim", ref:"M&E-ASC-RFA-Payment Claim VO-AC-015", pdfUrl:"pdfs/4.MEASIA/2.M-E-ASC-RFA-Payment VO-AC-015 (TOTAL SYSTEM).pdf", beforeVat:1103352.91, retention:0, vat:77234.70, subTotal:1115684.50, whTax:33100.59, grandTotal:1082583.91, paid:0},
+        {no:14, name:"MEASIA M&E-ASC-RFA-Payment Claim VO-EE-005 (MEASIA-016)", subject:"VO Payment Claim", ref:"M&E-ASC-RFA-Payment Claim VO-EE-005", pdfUrl:"pdfs/4.MEASIA/3.M_E-ASC-RFA-Payment Claim VO-EE-005  VO TR.800 Kva to TR.1200 Kva NO. 2.pdf", beforeVat:19561.73, retention:0, vat:1369.32, subTotal:19952.96, whTax:586.85, grandTotal:19366.11, paid:0},
+        {no:15, name:"MEASIA M&E-ASC-RFA-Payment Claim VO-EE-006 (MEASIA-015)", subject:"VO Payment Claim", ref:"M&E-ASC-RFA-Payment Claim VO-EE-006", pdfUrl:"pdfs/4.MEASIA/4.M_E-ASC-RFA-Payment Claim VO-EE-006  VO AVL  cable tray - wireway (BELT) No.3.pdf", beforeVat:300527.82, retention:0, vat:21036.95, subTotal:306538.38, whTax:9015.84, grandTotal:297522.54, paid:0},
+        {no:16, name:"MEASIA M&E-ASC-RFA-Payment Claim VO-EE-007 (MEASIA-013)", subject:"VO Payment Claim", ref:"M&E-ASC-RFA-Payment Claim VO-EE-007", pdfUrl:"pdfs/4.MEASIA/5.M_E-ASC-RFA-Payment Claim VO-EE-007  VO  AVL Trench.pdf", beforeVat:276638.25, retention:0, vat:19364.68, subTotal:282171.02, whTax:8299.15, grandTotal:273871.87, paid:0},
         {no:17, name:"MEASIA M&E-ASC-RFA-Payment Claim VO-EE-008 Rev.2 (SI-049)", subject:"VO Payment Claim", ref:"M&E-ASC-RFA-Payment Claim VO-EE-008 Rev.2", pdfUrl:"pdfs/4.MEASIA/6.M_E-ASC-RFA-Payment Claim VO-EE-008 Rev.2 TOTAL VO-VE  No Site Instruction.pdf", beforeVat:-118260.73, retention:-5913.04, vat:-8278.25, subTotal:-120625.94, whTax:-3547.82, grandTotal:-117078.12, paid:0},
       ]
     },
@@ -425,6 +431,11 @@
 
   paymentSummaryHost.innerHTML = `
     <h3>Payment Received Summary</h3>
+    <div class="summary-tabs">
+      <button class="summary-tab active" onclick="switchSummaryTab('payment',this)">Payment</button>
+      <button class="summary-tab" onclick="switchSummaryTab('retention',this)">Retention</button>
+    </div>
+    <div id="summaryTab-payment" class="summary-tab-content active">
     <div class="payment-grid">
       <div class="payment-item">
         <div class="payment-label">Total Claims Value</div>
@@ -453,6 +464,10 @@
         <div style="margin-top:10px">${evidenceBtn}</div>
       </div>
     </div>
+    </div>
+    <div id="summaryTab-retention" class="summary-tab-content">
+      <div class="payment-grid" id="retentionSummaryGrid" style="margin-bottom:0"></div>
+    </div>
   `;
 
   // Modal functions
@@ -467,6 +482,57 @@
   window.closePDF = function(){
     document.getElementById('pdfModal').style.display = 'none';
     document.getElementById('pdfFrame').src = '';
+  };
+  let _savedContractorsHTML = null;
+  window.switchSummaryTab = function(tabId, btn){
+    document.querySelectorAll('.summary-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.summary-tab-content').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('summaryTab-'+tabId).classList.add('active');
+
+    const host = document.getElementById('contractors');
+    if(tabId === 'retention'){
+      // Populate retention summary grid
+      const retGrid = document.getElementById('retentionSummaryGrid');
+      const gTotalRet = data.reduce((s,d)=>s+d.contracts.reduce((a,b)=>a+(b.retention||0),0),0);
+      const retItems = data.filter(d=>d.contracts.some(k=>(k.retention||0)>0)).map(d=>{
+        const tot = d.contracts.reduce((a,b)=>a+(b.retention||0),0);
+        return `<div class="payment-item"><div class="payment-label">${d.contractor}</div><div class="payment-value" style="font-size:15px">${fmt(tot)}</div></div>`;
+      }).join('');
+      retGrid.innerHTML = retItems + `<div class="payment-item"><div class="payment-label" style="color:var(--gold)">Total Retention</div><div class="payment-value">${fmt(gTotalRet)}</div></div>`;
+      _savedContractorsHTML = host.innerHTML;
+      let html = '';
+      data.forEach(c=>{
+        const rc = c.contracts.filter(k=>(k.retention||0)>0);
+        if(!rc.length) return;
+        const tot = rc.reduce((a,b)=>a+(b.retention||0),0);
+        html += `<div class="contractor">
+          <div class="contractor-head" style="flex-wrap:wrap">
+            <div style="flex:1;min-width:300px">
+              <div class="contractor-name">${c.contractor}<small>${c.ref} · ${rc.length} Contract${rc.length>1?'s':''} with Retention</small></div>
+              <div class="contractor-totals" style="margin-top:12px">
+                <div class="total-item"><div class="lbl">Total Retention</div><div class="val" style="color:#d4a843">${fmt(tot)}</div></div>
+              </div>
+            </div>
+          </div>
+          <table>
+            <thead><tr>
+              <th>No</th>
+              <th>Payment Claim &amp; Reference</th>
+              <th class="num">Retention Amount</th>
+            </tr></thead>
+            <tbody>${rc.map(k=>`<tr>
+              <td class="contract-name">${k.no}<small>${k.subject}</small></td>
+              <td class="contract-name">${k.name}<small>${k.ref}</small></td>
+              <td class="num total">${fmt(k.retention||0)}</td>
+            </tr>`).join('')}</tbody>
+          </table>
+        </div>`;
+      });
+      host.innerHTML = html || '<p style="color:var(--muted);text-align:center;padding:40px">No retention data entered yet</p>';
+    } else {
+      if(_savedContractorsHTML) host.innerHTML = _savedContractorsHTML;
+    }
   };
   window.closeEvidenceModal = function(){
     document.getElementById("evidenceModal").classList.remove("active");
