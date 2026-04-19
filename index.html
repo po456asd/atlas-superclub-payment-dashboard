@@ -338,6 +338,7 @@
       <strong id="today">19 April 2026</strong>
       <div id="updateInfo" style="font-size:10px;color:var(--muted);margin-top:4px;letter-spacing:0.5px"></div>
       <button onclick="exportPDF()" style="margin-top:12px;padding:8px 16px;background:var(--gold);color:#000;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:0.2s">📥 Export PDF</button>
+      <button onclick="exportExcel()" style="margin-top:12px;margin-left:8px;padding:8px 16px;background:var(--gold);color:#000;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:0.2s">📊 Export Excel</button>
     </div>
   </header>
 
@@ -783,8 +784,253 @@
       document.head.removeChild(style);
     });
   };
+
+  // Excel Export function
+  window.exportExcel = function(){
+    // Calculate payment summary
+    let totalClaims = 0, totalReceived = 0;
+    data.forEach(d => {
+      if(d.retention_only) return; // Skip retention-only contractors in payment sheet
+      d.contracts.forEach(k => {
+        totalClaims += k.grandTotal || 0;
+        totalReceived += k.paid || 0;
+      });
+    });
+    const balance = totalClaims - totalReceived;
+    const balancePct = totalClaims > 0 ? (totalReceived / totalClaims * 100) : 0;
+
+    // Create workbook
+    const wb = XLSX.utils.book_new();
+
+    // ========== SHEET 1: PAYMENT RECEIVED SUMMARY ==========
+    const paymentData = [];
+
+    // Summary row
+    paymentData.push({
+      'No': 'PAYMENT RECEIVED SUMMARY',
+      'Payment Claim & Reference': '',
+      'A Before VAT': '',
+      'B Retention': '',
+      'C VAT': '',
+      'D Sub Total': '',
+      'E WH Tax': '',
+      'F Grand Total': '',
+      'Paid': '',
+      'Remaining': ''
+    });
+    paymentData.push({
+      'No': '',
+      'Payment Claim & Reference': 'Total Claims',
+      'A Before VAT': totalClaims,
+      'B Retention': '',
+      'C VAT': '',
+      'D Sub Total': 'Paid',
+      'E WH Tax': totalReceived,
+      'F Grand Total': 'Remaining',
+      'Paid': balance,
+      'Remaining': '% Paid'
+    });
+    paymentData.push({
+      'No': '',
+      'Payment Claim & Reference': fmt(totalClaims),
+      'A Before VAT': '',
+      'B Retention': '',
+      'C VAT': '',
+      'D Sub Total': fmt(totalReceived),
+      'E WH Tax': '',
+      'F Grand Total': fmt(balance),
+      'Paid': balancePct.toFixed(2) + '%',
+      'Remaining': ''
+    });
+    paymentData.push({}); // Empty row
+
+    // Add contractors and contracts
+    data.forEach(d => {
+      if(d.retention_only) return;
+
+      // Contractor header
+      paymentData.push({
+        'No': d.name,
+        'Payment Claim & Reference': `(${d.contracts.length} Claims)`,
+        'A Before VAT': '',
+        'B Retention': '',
+        'C VAT': '',
+        'D Sub Total': '',
+        'E WH Tax': '',
+        'F Grand Total': '',
+        'Paid': '',
+        'Remaining': ''
+      });
+
+      // Contract rows
+      d.contracts.forEach((k, idx) => {
+        paymentData.push({
+          'No': idx + 1,
+          'Payment Claim & Reference': k.ref || '',
+          'A Before VAT': fmt(k.beforeVat || 0),
+          'B Retention': fmt(k.retention || 0),
+          'C VAT': fmt(k.vat || 0),
+          'D Sub Total': fmt(k.subTotal || 0),
+          'E WH Tax': fmt(k.whTax || 0),
+          'F Grand Total': fmt(k.grandTotal || 0),
+          'Paid': fmt(k.paid || 0),
+          'Remaining': fmt((k.grandTotal || 0) - (k.paid || 0))
+        });
+      });
+
+      // Contractor subtotal
+      const cClaims = d.contracts.reduce((a,b) => a + (b.grandTotal || 0), 0);
+      const cPaid = d.contracts.reduce((a,b) => a + (b.paid || 0), 0);
+      const cRemaining = cClaims - cPaid;
+      const cPaidPct = cClaims > 0 ? (cPaid / cClaims * 100) : 0;
+
+      paymentData.push({
+        'No': d.name + ' Sub total',
+        'Payment Claim & Reference': '',
+        'A Before VAT': fmt(cClaims),
+        'B Retention': '',
+        'C VAT': '',
+        'D Sub Total': fmt(cPaid),
+        'E WH Tax': '',
+        'F Grand Total': fmt(cRemaining),
+        'Paid': cPaidPct.toFixed(2) + '%',
+        'Remaining': ''
+      });
+      paymentData.push({}); // Empty row between contractors
+    });
+
+    const paymentWS = XLSX.utils.json_to_sheet(paymentData);
+    paymentWS['!cols'] = [
+      {wch: 8}, {wch: 25}, {wch: 15}, {wch: 15}, {wch: 12}, {wch: 15}, {wch: 12}, {wch: 15}, {wch: 15}, {wch: 15}
+    ];
+
+    // ========== SHEET 2: RETENTION SUMMARY ==========
+    const retentionData = [];
+
+    // Calculate retention summary
+    let totalRetention = 0, totalRetentionPaid = 0;
+    data.forEach(d => {
+      d.contracts.forEach(k => {
+        if(k.retention > 0) {
+          totalRetention += k.retention || 0;
+          totalRetentionPaid += k.paid || 0; // Assuming full contract paid amount
+        }
+      });
+    });
+    const retentionOutstanding = totalRetention - totalRetentionPaid;
+    const retentionPaidPct = totalRetention > 0 ? (totalRetentionPaid / totalRetention * 100) : 0;
+
+    // Summary row
+    retentionData.push({
+      'No': 'RETENTION SUMMARY',
+      'Payment Claim & Reference': '',
+      'A Before VAT': '',
+      'B Retention': '',
+      'C VAT': '',
+      'D Sub Total': '',
+      'E WH Tax': '',
+      'F Grand Total': '',
+      'Paid': '',
+      'Remaining': ''
+    });
+    retentionData.push({
+      'No': '',
+      'Payment Claim & Reference': 'Total Retention',
+      'A Before VAT': totalRetention,
+      'B Retention': '',
+      'C VAT': '',
+      'D Sub Total': 'Retention Paid',
+      'E WH Tax': totalRetentionPaid,
+      'F Grand Total': 'Outstanding',
+      'Paid': retentionOutstanding,
+      'Remaining': '% Paid'
+    });
+    retentionData.push({
+      'No': '',
+      'Payment Claim & Reference': fmt(totalRetention),
+      'A Before VAT': '',
+      'B Retention': '',
+      'C VAT': '',
+      'D Sub Total': fmt(totalRetentionPaid),
+      'E WH Tax': '',
+      'F Grand Total': fmt(retentionOutstanding),
+      'Paid': retentionPaidPct.toFixed(2) + '%',
+      'Remaining': ''
+    });
+    retentionData.push({}); // Empty row
+
+    // Add contractors with retention > 0 and their contracts with retention > 0
+    data.forEach(d => {
+      const hasRetention = d.contracts.some(k => k.retention > 0);
+      if(!hasRetention) return;
+
+      // Contractor header
+      retentionData.push({
+        'No': d.name,
+        'Payment Claim & Reference': `(${d.contracts.filter(k => k.retention > 0).length} Claims with Retention)`,
+        'A Before VAT': '',
+        'B Retention': '',
+        'C VAT': '',
+        'D Sub Total': '',
+        'E WH Tax': '',
+        'F Grand Total': '',
+        'Paid': '',
+        'Remaining': ''
+      });
+
+      // Contract rows (retention > 0 only)
+      d.contracts.forEach((k, idx) => {
+        if(k.retention <= 0) return;
+
+        retentionData.push({
+          'No': idx + 1,
+          'Payment Claim & Reference': k.ref || '',
+          'A Before VAT': fmt(k.beforeVat || 0),
+          'B Retention': fmt(k.retention || 0),
+          'C VAT': fmt(k.vat || 0),
+          'D Sub Total': fmt(k.subTotal || 0),
+          'E WH Tax': fmt(k.whTax || 0),
+          'F Grand Total': fmt(k.grandTotal || 0),
+          'Paid': fmt(k.paid || 0),
+          'Remaining': fmt((k.grandTotal || 0) - (k.paid || 0))
+        });
+      });
+
+      // Contractor subtotal (retention filtered)
+      const rContracts = d.contracts.filter(k => k.retention > 0);
+      const rClaims = rContracts.reduce((a,b) => a + (b.grandTotal || 0), 0);
+      const rPaid = rContracts.reduce((a,b) => a + (b.paid || 0), 0);
+      const rRemaining = rClaims - rPaid;
+      const rPaidPct = rClaims > 0 ? (rPaid / rClaims * 100) : 0;
+
+      retentionData.push({
+        'No': d.name + ' Sub total',
+        'Payment Claim & Reference': '',
+        'A Before VAT': fmt(rClaims),
+        'B Retention': '',
+        'C VAT': '',
+        'D Sub Total': fmt(rPaid),
+        'E WH Tax': '',
+        'F Grand Total': fmt(rRemaining),
+        'Paid': rPaidPct.toFixed(2) + '%',
+        'Remaining': ''
+      });
+      retentionData.push({}); // Empty row between contractors
+    });
+
+    const retentionWS = XLSX.utils.json_to_sheet(retentionData);
+    retentionWS['!cols'] = [
+      {wch: 8}, {wch: 25}, {wch: 15}, {wch: 15}, {wch: 12}, {wch: 15}, {wch: 12}, {wch: 15}, {wch: 15}, {wch: 15}
+    ];
+
+    // Append sheets and save
+    XLSX.utils.book_append_sheet(wb, paymentWS, "Payment Received Summary");
+    XLSX.utils.book_append_sheet(wb, retentionWS, "Retention Summary");
+    XLSX.writeFile(wb, "ATLAS_Superclub_Dashboard.xlsx");
+  };
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@latest/dist/xlsx.full.min.js"></script>
 </body>
 </html>
