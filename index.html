@@ -738,12 +738,12 @@
   window.exportPDF = function(){
     const element = document.querySelector('.container');
     const opt = {
-      margin: 10,
+      margin: [10, 8, 10, 8],
       filename: 'ATLAS_Superclub_Payment_Dashboard.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
+      image: { type: 'jpeg', quality: 0.95 },
+      html2canvas: { scale: 1.5, useCORS: true, logging: false, windowHeight: 1400 },
       jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
-      pagebreak: { avoid: ['.contractor', '.card', '.summary'], mode: ['avoid-all', 'css', 'legacy'] }
+      pagebreak: { avoid: ['.contractor', '.card', '.summary', 'table'], mode: ['avoid-all', 'css', 'legacy'] }
     };
     html2pdf().set(opt).from(element).save();
   };
