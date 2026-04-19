@@ -789,8 +789,12 @@
       if(d.retention_only) return;
       d.contracts.forEach(k => {
         totalClaims += k.grandTotal || 0;
-        totalReceived += k.paid || 0;
       });
+      // Use documented payments for total received
+      const contractorPayments = payments.filter(p => p.contractorRef === d.ref);
+      if(contractorPayments.length > 0) {
+        totalReceived += contractorPayments.reduce((a,b) => a + b.amount, 0);
+      }
     });
     const balance = totalClaims - totalReceived;
     const balancePct = totalClaims > 0 ? (totalReceived / totalClaims * 100) : 0;
@@ -873,9 +877,13 @@
       d.contracts.forEach(k => {
         if(k.retention > 0) {
           totalRetention += k.retention || 0;
-          totalRetentionPaid += k.paid || 0;
         }
       });
+      // Use documented payments for retention paid
+      const contractorPayments = payments.filter(p => p.contractorRef === d.ref);
+      if(contractorPayments.length > 0) {
+        totalRetentionPaid += contractorPayments.reduce((a,b) => a + b.amount, 0);
+      }
     });
     const retentionOutstanding = totalRetention - totalRetentionPaid;
     const retentionPaidPct = totalRetention > 0 ? (totalRetentionPaid / totalRetention * 100) : 0;
