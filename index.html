@@ -847,9 +847,9 @@
       const cPaid = contractorPayments.length > 0 ? contractorPayments.reduce((a,b) => a + b.amount, 0) : 0;
       const cRemaining = cClaims - cPaid;
 
-      paymentData.push(['Total Claim (Grand Total)', '', cClaims]);
-      paymentData.push(['Lump Sum Received', '', cPaid]);
-      paymentData.push(['Total Remaining', '', cRemaining]);
+      paymentData.push(['', 'Total Claim (Grand Total)', '', '', '', '', '', cClaims]);
+      paymentData.push(['', 'Lump Sum Received', '', '', '', '', '', cPaid]);
+      paymentData.push(['', 'Total Remaining', '', '', '', '', '', cRemaining]);
       paymentData.push([]); // Empty row
     });
 
@@ -933,9 +933,9 @@
       const rPaid = rContractorPayments.length > 0 ? rContractorPayments.reduce((a,b) => a + b.amount, 0) : 0;
       const rRemaining = rClaims - rPaid;
 
-      retentionData.push(['Total Claim', '', rClaims]);
-      retentionData.push(['Lump Sum Received', '', rPaid]);
-      retentionData.push(['Total Remaining', '', rRemaining]);
+      retentionData.push(['', 'Total Claim (Grand Total)', '', '', '', '', '', rClaims]);
+      retentionData.push(['', 'Lump Sum Received', '', '', '', '', '', rPaid]);
+      retentionData.push(['', 'Total Remaining', '', '', '', '', '', rRemaining]);
       retentionData.push([]); // Empty row
     });
 
