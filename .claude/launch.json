@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "atlas-dashboard",
+      "runtimeExecutable": "C:/Users/White/AppData/Local/Programs/Python/Python313/python",
+      "runtimeArgs": ["server.py"],
+      "port": 3000
+    }
+  ]
+}
