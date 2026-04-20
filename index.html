@@ -219,7 +219,6 @@
     cursor:pointer;transition:0.2s;display:inline-block;white-space:nowrap;
   }
   .evidence-btn:hover{background:var(--gold);color:var(--bg-0)}
-  .contractor-head .evidence-btn{padding:8px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 
   /* Footer */
   footer{
@@ -634,7 +633,7 @@
       _savedContractorsHTML = host.innerHTML;
       let html = '';
       retractorsWithRetention.forEach(c=>{
-        const pdfBtn = c.retention_memo ? `<button class="evidence-btn" onclick="showPDF('${c.retention_memo}','${c.contractor} - Retention Memo')">📄</button>` : '';
+        const pdfBtn = c.retention_memo ? `<button class="evidence-btn" onclick="showPDF('${c.retention_memo}','${c.contractor} - Retention Memo')">📄 View Retention Memo</button>` : '';
         html += `<div class="contractor">
           <div class="contractor-head">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-basis:100%;gap:16px">
