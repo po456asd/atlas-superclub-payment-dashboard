@@ -906,19 +906,9 @@
     // ========== SHEET 2: RETENTION SUMMARY ==========
     const retentionData = [];
 
-    // Calculate retention summary
-    let totalRetention = 0, totalRetentionPaid = 0;
-    data.forEach(d => {
-      d.contracts.forEach(k => {
-        if(k.retention > 0) {
-          totalRetention += k.retention || 0;
-        }
-      });
-      // Retention payments not yet tracked (always 0)
-      totalRetentionPaid = 0;
-    });
-    const retentionOutstanding = totalRetention - totalRetentionPaid;
-    const retentionPaidPct = totalRetention > 0 ? (totalRetentionPaid / totalRetention * 100) : 0;
+    // Get contractors with retention_total > 0
+    const contractorsWithRetention = data.filter(d => d.retention_total > 0);
+    const totalRetention = contractorsWithRetention.reduce((s,d) => s + d.retention_total, 0);
 
     // Row 1: Title
     retentionData.push(['', 'RETENTION SUMMARY']);
@@ -927,50 +917,34 @@
     retentionData.push(['', 'Total Retention', 'Retention Paid', 'Outstanding']);
 
     // Row 3: Summary values
-    retentionData.push(['', totalRetention, 0, retentionOutstanding]);
+    retentionData.push(['', totalRetention, 0, totalRetention]);
 
     // Row 4: Empty
     retentionData.push([]);
 
     // Row 5: Table headers
-    retentionData.push(['No', 'Payment Claim & Reference', 'B Retention']);
+    retentionData.push(['No', 'Contractor', 'Retention Amount', 'Memo PDF']);
 
     // Row 6: Empty row
     retentionData.push([]);
 
-    // Add contractors with retention > 0
-    data.forEach(d => {
-      const hasRetention = d.contracts.some(k => k.retention > 0);
-      if(!hasRetention) return;
-
-      const contractsWithRetention = d.contracts.filter(k => k.retention > 0);
-
-      // Contractor header row
-      retentionData.push(['', d.contractor, `(${contractsWithRetention.length} Claims)`]);
-
-      // Contract rows (retention > 0 only)
-      contractsWithRetention.forEach((k, idx) => {
-        retentionData.push([
-          idx + 1,
-          k.ref || '',
-          k.retention || 0
-        ]);
-      });
-
-      // Contractor subtotals
-      const rClaims = contractsWithRetention.reduce((a,b) => a + (b.retention || 0), 0);
-      const rPaid = 0; // Retention payments not yet tracked
-      const rRemaining = rClaims - rPaid;
-
-      retentionData.push(['', 'Total Retention (Grand Total)', rClaims]);
-      retentionData.push(['', 'Total Paid', 0]);
-      retentionData.push(['', 'Total Remaining', rRemaining]);
-      retentionData.push([]); // Empty row
+    // Add contractors with retention
+    contractorsWithRetention.forEach((d, idx) => {
+      retentionData.push([
+        idx + 1,
+        d.contractor,
+        d.retention_total || 0,
+        d.retention_memo ? d.retention_memo.split('/').pop() : ''
+      ]);
     });
+
+    // Row: Total
+    retentionData.push([]);
+    retentionData.push(['', 'TOTAL RETENTION', totalRetention, '']);
 
     const retentionWS = XLSX.utils.aoa_to_sheet(retentionData);
     retentionWS['!cols'] = [
-      {wch: 12}, {wch: 28}, {wch: 15}
+      {wch: 5}, {wch: 40}, {wch: 18}, {wch: 35}
     ];
 
     // Apply currency formatting to all numeric cells
