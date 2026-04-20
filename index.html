@@ -335,8 +335,7 @@
     </div>
     <div class="meta">
       Report Issued by <span>Pratchaya Seela</span>
-      <strong id="today">19 April 2026</strong>
-      <div id="updateInfo" style="font-size:10px;color:var(--muted);margin-top:4px;letter-spacing:0.5px"></div>
+      <div id="updateInfo" style="font-size:10px;color:var(--muted);margin-top:2px;letter-spacing:0.5px"></div>
       <button onclick="exportPDF()" style="margin-top:12px;padding:8px 16px;background:var(--gold);color:#000;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:0.2s">📥 Export PDF</button>
       <button onclick="exportExcel()" style="margin-top:12px;margin-left:8px;padding:8px 16px;background:var(--gold);color:#000;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:0.2s">📊 Export Excel</button>
     </div>
@@ -380,10 +379,9 @@
   // Set update time and build ID
   const now = new Date();
   const buildId = "v" + now.toISOString().substr(0,10).replace(/-/g,"");
-  const dateDisplay = now.toLocaleDateString("en-US", {month: "short", day: "numeric", year: "numeric"});
 
-  // Display date and build ID only
-  document.getElementById("updateInfo").innerHTML = `${dateDisplay} | Build: ${buildId}`;
+  // Display build ID only
+  document.getElementById("updateInfo").innerHTML = `Build: ${buildId}`;
 
   const data = [
     {
