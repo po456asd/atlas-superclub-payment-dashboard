@@ -634,16 +634,18 @@
       _savedContractorsHTML = host.innerHTML;
       let html = '';
       retractorsWithRetention.forEach(c=>{
-        const pdfBtn = c.retention_memo ? `<button class="evidence-btn" onclick="showPDF('${c.retention_memo}','${c.contractor} - Retention Memo')" style="width:36px;padding:6px;text-align:center;flex-shrink:0">📄</button>` : '';
+        const pdfBtn = c.retention_memo ? `<button class="evidence-btn" onclick="showPDF('${c.retention_memo}','${c.contractor} - Retention Memo')">📄</button>` : '';
         html += `<div class="contractor">
           <div class="contractor-head">
-            <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-basis:100%;gap:16px">
               <div class="contractor-name">${c.contractor}<small>${c.ref}</small></div>
-              <div class="contractor-totals" style="margin-top:12px">
-                <div class="total-item"><div class="lbl">Retention Amount</div><div class="val" style="color:#d4a843">${fmt(c.retention_total)}</div></div>
+              <div style="flex-shrink:0">
+                ${pdfBtn}
               </div>
             </div>
-            ${pdfBtn}
+            <div class="contractor-totals" style="margin-top:12px;flex-basis:100%">
+              <div class="total-item"><div class="lbl">Retention Amount</div><div class="val" style="color:#d4a843">${fmt(c.retention_total)}</div></div>
+            </div>
           </div>
         </div>`;
       });
