@@ -402,6 +402,8 @@
     {
       contractor:"Italian-Thai Development PLC",
       ref:"CT-ITD",
+      retention_total:5686816.77,
+      retention_memo:"pdfs/Retention/ITD/ CMP_ASC_MEMO_40.pdf",
       contracts:[
         {no:1, name:"Main Contract Progress Claim No.18 (Final Payment)", subject:"Progress Claim", ref:"25962025/018", pdfUrl:"pdfs/1.ITD/NO. 25962025-018.pdf", beforeVat:114863.49, retention:2614947.00, vat:8040.44, subTotal:122903.93, whTax:3445.90, grandTotal:119458.03, paid:0},
         {no:2, name:"ITD Vos Progress Claim No.14 (Final Payment)", subject:"VO Payment Claim", ref:"25962025/Payment (VO)/014 R.1", pdfUrl:"pdfs/1.ITD/NO. 25962025-Payment (VO)-014 R.1.pdf", beforeVat:1297004.89, retention:2565411.65, vat:90790.34, subTotal:1310703.62, whTax:38910.15, grandTotal:1271793.47, paid:0},
@@ -411,6 +413,8 @@
     {
       contractor:"XTi Thailand Co., Ltd.",
       ref:"CT-XTI",
+      retention_total:1975661.77,
+      retention_memo:"pdfs/Retention/XTI/ CMP_ASC_MEMO_41.pdf",
       contracts:[
         {no:4, name:"XTI Progress Claim No.8 (Final Payment)", subject:"Progress Claim", ref:"Xti/ASC/Payment/008", pdfUrl:"pdfs/2.XTI/1.NO. Xti-ASC-Payment-008.pdf", beforeVat:1314339.83, retention:977714.11, vat:92003.79, subTotal:1312462.21, whTax:39430.18, grandTotal:1273032.03, paid:0},
         {no:5, name:"XTI Vos Progress Claim No.010 (Final Payment)", subject:"VO Payment Claim", ref:"Xti/ASC/Claim VO/010", pdfUrl:"pdfs/2.XTI/2.NO. Xti-ASC-Claim VO-010.pdf", beforeVat:3351702.91, retention:123300.00, vat:234619.20, subTotal:3565441.31, whTax:100551.09, grandTotal:3464890.22, paid:0},
@@ -422,6 +426,8 @@
     {
       contractor:"BANGKOK DEC - CON PUBLIC COMPANY LIMITED",
       ref:"CT-BKD",
+      retention_total:4233152.98,
+      retention_memo:"pdfs/Retention/BKD/ CMP_ASC_MEMO_39.pdf",
       contracts:[
         {no:9, name:"BKD Payment Claim No 09", subject:"Payment Claim", ref:"BKD/ASC/Payment/009", pdfUrl:"pdfs/3.BKD/1.BKD Main construction Payment Claim No.9.pdf", beforeVat:4860477.05, retention:4093808.74, vat:340233.40, subTotal:4795670.70, whTax:145814.31, grandTotal:4649856.39, paid:0},
         {no:10, name:"BKD VO of SI-040", subject:"Payment Claim", ref:"Claim VO. No. 1 VO of Final Account SI-040", pdfUrl:"pdfs/3.BKD/2.Claim VO. No. 1 VO of Final Account SI-040.pdf", beforeVat:1618086.23, retention:80904.31, vat:113266.04, subTotal:1650447.96, whTax:48542.59, grandTotal:1601905.37, paid:0},
@@ -431,6 +437,8 @@
     {
       contractor:"ME ASIA (THAILAND) COMPANY LIMITED",
       ref:"CT-MEASIA",
+      retention_total:2840480.03,
+      retention_memo:"pdfs/Retention/MEASIA/ CMP_ASC_MEMO_38.pdf",
       contracts:[
         {no:12, name:"MEASIA Main Contract Progress Claim", subject:"Payment Claim", ref:"M&E/ASC/RFA/Payment/013", pdfUrl:"pdfs/4.MEASIA/1.20260317M-E-ASC-RFA-Pay ment- 013 (MEP SYSTEM).pdf", beforeVat:3463702.63, retention:2117838.17, vat:242459.18, subTotal:3501496.64, whTax:103911.07, grandTotal:3397585.57, paid:0, note:"M&E-ASC-MEMO-042 changed price to HWG's calcuration"},
         {no:13, name:"MEASIA VO-AC Progress Claim", subject:"VO Payment Claim", ref:"M&E-ASC-RFA-Payment Claim VO-AC-015", pdfUrl:"pdfs/4.MEASIA/2.M-E-ASC-RFA-Payment VO-AC-015 (TOTAL SYSTEM).pdf", beforeVat:1103352.91, retention:805000, vat:77234.70, subTotal:1115684.50, whTax:33100.59, grandTotal:1082583.91, paid:0},
@@ -488,6 +496,8 @@
       contractor:"MEGA ENGINEERING ASIA CO., LTD.",
       ref:"CT-MEGA",
       retention_only:true,
+      retention_total:160318.99,
+      retention_memo:"pdfs/Retention/MEGA/ CMP_ASC_MEMO_42.pdf",
       contracts:[
         {no:26, name:"MEGA Engineering - Mat & Install IPC-001", subject:"Retention Claim", ref:"ATLAS/MAT&INSTALL/IPC-001", pdfUrl:"", beforeVat:0, retention:160318.99, vat:0, subTotal:0, whTax:0, grandTotal:0, paid:0, note:"Request for payment in the past not on final payment account."}
       ]
@@ -612,41 +622,28 @@
 
     const host = document.getElementById('contractors');
     if(tabId === 'retention'){
-      // Populate retention summary grid
+      // Populate retention summary grid using lump sum retention_total
       const retGrid = document.getElementById('retentionSummaryGrid');
-      const gTotalRet = data.reduce((s,d)=>s+d.contracts.reduce((a,b)=>a+(b.retention||0),0),0);
-      const retItems = data.filter(d=>d.contracts.some(k=>(k.retention||0)>0)).map(d=>{
-        const tot = d.contracts.reduce((a,b)=>a+(b.retention||0),0);
-        return `<div class="payment-item"><div class="payment-label">${d.contractor}</div><div class="payment-value" style="font-size:15px">${fmt(tot)}</div></div>`;
+      const retractorsWithRetention = data.filter(d=>d.retention_total>0);
+      const gTotalRet = retractorsWithRetention.reduce((s,d)=>s+d.retention_total,0);
+      const retItems = retractorsWithRetention.map(d=>{
+        return `<div class="payment-item"><div class="payment-label">${d.contractor}</div><div class="payment-value" style="font-size:15px">${fmt(d.retention_total)}</div></div>`;
       }).join('');
       retGrid.innerHTML = retItems + `<div class="payment-item"><div class="payment-label" style="color:var(--gold)">Total Retention</div><div class="payment-value">${fmt(gTotalRet)}</div></div>`;
       _savedContractorsHTML = host.innerHTML;
       let html = '';
-      data.forEach(c=>{
-        const rc = c.contracts.filter(k=>(k.retention||0)>0);
-        if(!rc.length) return;
-        const tot = rc.reduce((a,b)=>a+(b.retention||0),0);
+      retractorsWithRetention.forEach(c=>{
+        const pdfBtn = c.retention_memo ? `<button class="evidence-btn" onclick="showPDF('${c.retention_memo}','${c.contractor} - Retention Memo')" style="width:32px;padding:4px;text-align:center">📄</button>` : '';
         html += `<div class="contractor">
-          <div class="contractor-head" style="flex-wrap:wrap">
+          <div class="contractor-head" style="flex-wrap:wrap;align-items:center">
             <div style="flex:1;min-width:300px">
-              <div class="contractor-name">${c.contractor}<small>${c.ref} · ${rc.length} Contract${rc.length>1?'s':''} with Retention</small></div>
+              <div class="contractor-name">${c.contractor}<small>${c.ref}</small></div>
               <div class="contractor-totals" style="margin-top:12px">
-                <div class="total-item"><div class="lbl">Total Retention</div><div class="val" style="color:#d4a843">${fmt(tot)}</div></div>
+                <div class="total-item"><div class="lbl">Retention Amount</div><div class="val" style="color:#d4a843">${fmt(c.retention_total)}</div></div>
               </div>
             </div>
+            ${pdfBtn}
           </div>
-          <table>
-            <thead><tr>
-              <th>No</th>
-              <th>Payment Claim &amp; Reference</th>
-              <th class="num">Retention Amount</th>
-            </tr></thead>
-            <tbody>${rc.map(k=>`<tr>
-              <td class="contract-name">${k.no}<small>${k.subject}</small></td>
-              <td class="contract-name">${k.name}<small>${k.ref}</small></td>
-              <td class="num total">${fmt(k.retention||0)}</td>
-            </tr>`).join('')}</tbody>
-          </table>
         </div>`;
       });
       host.innerHTML = html || '<p style="color:var(--muted);text-align:center;padding:40px">No retention data entered yet</p>';
