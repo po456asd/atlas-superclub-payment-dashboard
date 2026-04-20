@@ -219,6 +219,7 @@
     cursor:pointer;transition:0.2s;display:inline-block;
   }
   .evidence-btn:hover{background:var(--gold);color:var(--bg-0)}
+  .contractor-head .evidence-btn{padding:8px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 
   /* Footer */
   footer{
@@ -633,10 +634,10 @@
       _savedContractorsHTML = host.innerHTML;
       let html = '';
       retractorsWithRetention.forEach(c=>{
-        const pdfBtn = c.retention_memo ? `<button class="evidence-btn" onclick="showPDF('${c.retention_memo}','${c.contractor} - Retention Memo')" style="width:32px;padding:4px;text-align:center">📄</button>` : '';
+        const pdfBtn = c.retention_memo ? `<button class="evidence-btn" onclick="showPDF('${c.retention_memo}','${c.contractor} - Retention Memo')" style="width:36px;padding:6px;text-align:center;flex-shrink:0">📄</button>` : '';
         html += `<div class="contractor">
-          <div class="contractor-head" style="flex-wrap:wrap;align-items:center">
-            <div style="flex:1;min-width:300px">
+          <div class="contractor-head">
+            <div>
               <div class="contractor-name">${c.contractor}<small>${c.ref}</small></div>
               <div class="contractor-totals" style="margin-top:12px">
                 <div class="total-item"><div class="lbl">Retention Amount</div><div class="val" style="color:#d4a843">${fmt(c.retention_total)}</div></div>
