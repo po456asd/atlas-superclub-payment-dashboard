@@ -379,24 +379,11 @@
   // Data structure — amounts in THB (Thai Baht)
   // Set update time and build ID
   const now = new Date();
-  const updateTime = now.toLocaleString("en-US", {hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true});
   const buildId = "v" + now.toISOString().substr(0,10).replace(/-/g,"");
+  const dateDisplay = now.toLocaleDateString("en-US", {month: "short", day: "numeric", year: "numeric"});
 
-  // Track daily push counter (R.X format)
-  const today = now.toISOString().substr(0,10);
-  let stored = JSON.parse(localStorage.getItem('buildCounter') || '{}');
-  let revisionCounter = 0;
-
-  if(stored.date === today) {
-    revisionCounter = stored.count + 1;
-  } else {
-    revisionCounter = 0;
-  }
-
-  localStorage.setItem('buildCounter', JSON.stringify({date: today, count: revisionCounter}));
-
-  // Display update info, build ID, and revision counter on same line
-  document.getElementById("updateInfo").innerHTML = `Updated: ${updateTime} | Build: ${buildId} | R.${revisionCounter}`;
+  // Display date and build ID only
+  document.getElementById("updateInfo").innerHTML = `${dateDisplay} | Build: ${buildId}`;
 
   const data = [
     {
