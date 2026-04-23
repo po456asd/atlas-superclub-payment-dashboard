@@ -489,7 +489,8 @@
     }
   ];
 
-  const fmt = n => "฿ " + n.toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
+  const fmt = n => "฿ " + (Number(n)||0).toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
+  const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 
   // Payment received data (linked to contractor ref)
   const payments = [
@@ -578,9 +579,12 @@
   const gRemain = gTotal - gPaid;
   const gPct = gTotal ? (gPaid/gTotal*100) : 0;
 
-  // Calculate total received from payments
+  // Calculate total received from payments (filter by active contractors only)
+  const activeContractorRefs = new Set(data.filter(d => !d.retention_only).map(d => d.ref));
   let totalReceived = 0;
-  payments.forEach(p => {totalReceived += p.amount});
+  payments.forEach(p => {
+    if(activeContractorRefs.has(p.contractorRef)) totalReceived += p.amount;
+  });
   const totalClaims = gTotal;
   const balance = totalReceived - totalClaims;
   const balancePct = totalClaims ? (totalReceived/totalClaims*100) : 0;
@@ -680,7 +684,7 @@
       _savedContractorsHTML = host.innerHTML;
       let html = '';
       retractorsWithRetention.forEach(c=>{
-        const pdfBtn = c.retention_memo ? `<button class="evidence-btn" onclick="showPDF('${c.retention_memo}','${c.contractor} - Retention Memo')">📄 View Retention Memo</button>` : '';
+        const pdfBtn = c.retention_memo ? `<button class="evidence-btn" onclick="window.showPDF('${esc(c.retention_memo)}','${esc(c.contractor)} - Retention Memo')">📄 View Retention Memo</button>` : '';
         html += `<div class="contractor">
           <div class="contractor-head">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-basis:100%;gap:16px">
@@ -709,10 +713,10 @@
     const filtered = contractorRef ? payments.filter(p => p.contractorRef === contractorRef) : payments;
     const listHTML = filtered.map((p, idx) => {
       const c2 = data.find(d => d.ref === p.contractorRef);
-      return `<button class="evidence-btn" style="width:100%;margin:4px 0;text-align:left;display:flex;justify-content:space-between;gap:12px" onclick="showEvidence('${p.contractorRef}',${idx},${contractorRef ? 'true' : 'false'})"><span>📄 ${c2?.contractor || p.contractorRef}</span><span style="opacity:0.7;font-size:11px">${fmt(p.amount)} · ${p.date}</span></button>`;
+      return `<button class="evidence-btn" style="width:100%;margin:4px 0;text-align:left;display:flex;justify-content:space-between;gap:12px" onclick="window.showEvidence('${esc(p.contractorRef)}',${idx},${contractorRef ? 'true' : 'false'})"><span>📄 ${esc(c2?.contractor || p.contractorRef)}</span><span style="opacity:0.7;font-size:11px">${fmt(p.amount)} · ${esc(p.date)}</span></button>`;
     }).join("");
-    const title = contractorRef ? `SELECT PAYMENT - ${data.find(d => d.ref === contractorRef)?.contractor}` : `SELECT PAYMENT EVIDENCE`;
-    modalBody.innerHTML = `<div style="padding:4px"><div style="color:var(--gold);font-family:var(--font-head);font-size:14px;letter-spacing:2px;margin-bottom:16px;text-align:center">${title}</div>${listHTML}</div>`;
+    const title = contractorRef ? `SELECT PAYMENT - ${esc(data.find(d => d.ref === contractorRef)?.contractor)}` : `SELECT PAYMENT EVIDENCE`;
+    modalBody.innerHTML = `<div style="padding:4px"><div style="color:var(--gold);font-family:var(--font-head);font-size:14px;letter-spacing:2px;margin-bottom:16px;text-align:center">${esc(title)}</div>${listHTML}</div>`;
     document.getElementById("evidenceModal").classList.add("active");
   };
 
@@ -722,16 +726,16 @@
     if(!p) return;
     const contractor = data.find(d => d.ref === contractorRef);
     const modalBody = document.getElementById("modalBody");
-    const backBtn = isFiltered ? `<button class="evidence-btn" onclick="showEvidencePicker('${contractorRef}')" style="margin-bottom:16px;width:100%">← Back to Payments</button>` : "";
+    const backBtn = isFiltered ? `<button class="evidence-btn" onclick="window.showEvidencePicker('${esc(contractorRef)}')" style="margin-bottom:16px;width:100%">← Back to Payments</button>` : "";
     modalBody.innerHTML = `
       ${backBtn}
       <img src="${p.evidence.image}" alt="Payment Evidence" style="max-height:600px">
       <div class="info">
-        <strong>Contractor:</strong> ${contractor.contractor}<br>
-        <strong>Payment Date:</strong> ${p.date}<br>
+        <strong>Contractor:</strong> ${esc(contractor?.contractor ?? p.contractorRef)}<br>
+        <strong>Payment Date:</strong> ${esc(p.date)}<br>
         <strong>Amount Received:</strong> ${fmt(p.amount)}<br>
-        <strong>Bank:</strong> ${p.evidence.bankName}<br>
-        <strong>Cheque No:</strong> ${p.evidence.chequeNo}
+        <strong>Bank:</strong> ${esc(p.evidence.bankName)}<br>
+        <strong>Cheque No:</strong> ${esc(p.evidence.chequeNo)}
       </div>
     `;
     document.getElementById("evidenceModal").classList.add("active");
@@ -768,8 +772,8 @@
       const rem = k.grandTotal - (k.paid || 0);
       return `
         <tr>
-          <td class="contract-name">${k.no}<small>${k.subject}</small></td>
-          <td class="contract-name">${k.name}<small>${k.ref}</small></td>
+          <td class="contract-name">${esc(k.no)}<small>${esc(k.subject)}</small></td>
+          <td class="contract-name">${esc(k.name)}<small>${esc(k.ref)}</small></td>
           <td class="num total" data-label="A Before VAT">${fmt(k.beforeVat)}</td>
           <td class="num paid" data-label="B Retention">${fmt(k.retention)}</td>
           <td class="num paid" data-label="C VAT">${fmt(k.vat)}</td>
@@ -795,9 +799,9 @@
                 <div class="lbl">Payment Progress</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
                   <div class="c-bar-track" style="flex:1;height:6px;background:#fff;border:1px solid #999;overflow:hidden;border-radius:1px">
-                    <div class="c-bar-fill" style="height:100%;width:${Math.min(100,Math.max(0,(cPaid/cTotal*100)))}%;background:${barColor};border-radius:0;transition:width 0.6s ease"></div>
+                    <div class="c-bar-fill" style="height:100%;width:${(cTotal > 0) ? Math.min(100,Math.max(0,(cPaid/cTotal*100))) : 0}%;background:${barColor};border-radius:0;transition:width 0.6s ease"></div>
                   </div>
-                  <span class="c-bar-pct" style="font-size:11px;color:${pctColor};white-space:nowrap;min-width:38px;text-align:right">${cTotal ? (cPaid/cTotal*100).toFixed(1) : '0.0'}%</span>
+                  <span class="c-bar-pct" style="font-size:11px;color:${pctColor};white-space:nowrap;min-width:38px;text-align:right">${(cTotal > 0) ? (cPaid/cTotal*100).toFixed(1) : '0.0'}%</span>
                 </div>
               </div>
             </div>
@@ -857,7 +861,7 @@
 
     // Get current active tab for filename suffix
     const activeTabBtn = document.querySelector('.summary-tab.active');
-    const currentTab = activeTabBtn.textContent.trim();
+    const currentTab = (activeTabBtn?.textContent?.trim() || 'Payment').replace(/[^A-Za-z0-9_-]/g, '');
     const capitalizedTab = currentTab.charAt(0).toUpperCase() + currentTab.slice(1);
 
     const opt = {
@@ -970,6 +974,8 @@
     // Get contractors with retention_total > 0
     const contractorsWithRetention = data.filter(d => d.retention_total > 0);
     const totalRetention = contractorsWithRetention.reduce((s,d) => s + d.retention_total, 0);
+    const retentionOnlyRefs = new Set(data.filter(d => d.retention_only).map(d => d.ref));
+    const retentionPaid = payments.filter(p => retentionOnlyRefs.has(p.contractorRef)).reduce((s,p) => s + p.amount, 0);
 
     // Row 1: Title
     retentionData.push(['', 'RETENTION SUMMARY']);
@@ -978,7 +984,7 @@
     retentionData.push(['', 'Total Retention', 'Retention Paid', 'Outstanding']);
 
     // Row 3: Summary values
-    retentionData.push(['', totalRetention, 0, totalRetention]);
+    retentionData.push(['', totalRetention, retentionPaid, totalRetention - retentionPaid]);
 
     // Row 4: Empty
     retentionData.push([]);
