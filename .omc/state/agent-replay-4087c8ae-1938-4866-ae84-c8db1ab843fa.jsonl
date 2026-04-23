@@ -1,0 +1,5 @@
+{"t":0,"agent":"system","event":"skill_invoked","skill_name":"hud"}
+{"t":0,"agent":"system","event":"skill_invoked","skill_name":"mcp-setup"}
+{"t":0,"agent":"a71064c","agent_type":"code-reviewer","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"a71064c","agent_type":"code-reviewer","event":"agent_stop","success":true,"duration_ms":111971}
+{"t":0,"agent":"a995195","agent_type":"unknown","event":"agent_stop","success":true}

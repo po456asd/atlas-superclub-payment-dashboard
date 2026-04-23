@@ -1,0 +1,7 @@
+{
+  "tool_name": "mcp__Claude_Preview__preview_eval",
+  "tool_input_preview": "{\"serverId\":\"a582329e-afc6-433c-a3bc-e412b1757c72\",\"expression\":\"document.querySelector('button:contains(\\\"VIEW PAYMENT EVIDENCE\\\")')?.click?.(); \\\"clicked view payment evidence\\\"\"}",
+  "error": "Eval failed: SyntaxError: Failed to execute 'querySelector' on 'Document': 'button:contains(\"VIEW PAYMENT EVIDENCE\")' is not a valid selector.\n    at <anonymous>:1:10",
+  "timestamp": "2026-04-23T02:41:08.936Z",
+  "retry_count": 1
+}

@@ -1,0 +1,62 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1776910001227,
+  "projectRoot": "C:\\Users\\White\\OneDrive - CMP MANAGEMENT ASIA CO LTD\\Team 1 - Documents\\White\\2.Superclub Project\\ATLAS Report",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "images": {
+      "path": "images",
+      "purpose": null,
+      "fileCount": 15,
+      "lastAccessed": 1776910001193,
+      "keyFiles": [
+        "197046_0.jpg",
+        "197047_0.jpg",
+        "197048_0.jpg",
+        "197049_0.jpg",
+        "197050_0.jpg"
+      ]
+    },
+    "pdfs": {
+      "path": "pdfs",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1776910001194,
+      "keyFiles": []
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "index.html",
+      "accessCount": 18,
+      "lastAccessed": 1776912381499,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

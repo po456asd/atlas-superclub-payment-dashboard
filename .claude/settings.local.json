@@ -28,7 +28,8 @@
       "Bash(ls -lh images/481767.jpg)",
       "Bash(find . -name \"481767.jpg\" -type f)",
       "Bash(base64 -w 0 images/481767.jpg)",
-      "Read(//tmp/**)"
+      "Read(//tmp/**)",
+      "Bash(bash \"C:/Users/White/.claude/plugins/cache/omc/oh-my-claudecode/4.13.2/scripts/setup-progress.sh\" resume)"
     ]
   }
 }
