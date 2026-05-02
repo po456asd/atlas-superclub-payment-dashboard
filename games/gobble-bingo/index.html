@@ -1039,7 +1039,7 @@ function scoreHell(move) {
 
 // ── PC DEMON (unbeatable via minimax) ───────────────
 function pcMoveDemon() {
-  let move = findWinningMove("yellow");
+  const move = findWinningMove("yellow");
   if (move) { doPCMove(move); return; }
   move = findWinningMove("red");
   if (move) { doPCMove(move); return; }
