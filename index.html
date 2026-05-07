@@ -523,6 +523,9 @@
     const contractorPayments = paymentsByContractor[contractor.ref] || [];
     if (contractorPayments.length === 0) return;
 
+    // Skip payment matching for XTI (uses manual paid amounts)
+    if (contractor.ref === "CT-XTI") return;
+
     // Sort contracts by grand total (cheapest first)
     const sortedContracts = [...contractor.contracts].sort((a, b) => a.grandTotal - b.grandTotal);
 
