@@ -710,7 +710,14 @@
 
   window.showEvidencePicker = function(contractorRef){
     const modalBody = document.getElementById("modalBody");
-    const filtered = contractorRef ? payments.filter(p => p.contractorRef === contractorRef) : payments;
+    let filtered = contractorRef ? payments.filter(p => p.contractorRef === contractorRef) : payments;
+    filtered = filtered.sort((a, b) => {
+      const contA = data.find(d => d.ref === a.contractorRef)?.contractor || a.contractorRef;
+      const contB = data.find(d => d.ref === b.contractorRef)?.contractor || b.contractorRef;
+      const nameCompare = contA.localeCompare(contB);
+      if(nameCompare !== 0) return nameCompare;
+      return new Date(a.date) - new Date(b.date);
+    });
     const listHTML = filtered.map((p, idx) => {
       const c2 = data.find(d => d.ref === p.contractorRef);
       return `<button class="evidence-btn" style="width:100%;margin:4px 0;text-align:left;display:flex;justify-content:space-between;gap:12px" onclick="window.showEvidence('${esc(p.contractorRef)}',${idx},${contractorRef ? 'true' : 'false'})"><span>📄 ${esc(c2?.contractor || p.contractorRef)}</span><span style="opacity:0.7;font-size:11px">${fmt(p.amount)} · ${esc(p.date)}</span></button>`;
