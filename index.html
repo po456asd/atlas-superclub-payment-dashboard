@@ -388,6 +388,29 @@
   const fmt = n => "฿ " + (Number(n)||0).toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
   const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 
+  // PDF asset resolver — pass-through for now, single remap point if folder layout changes
+  function resolvePdfUrl(contractorRef, pdfUrl) { return pdfUrl; }
+
+  function summarize(data, payments) {
+    const byRef = {};
+    payments.forEach(p => { byRef[p.contractorRef] = (byRef[p.contractorRef] || 0) + p.amount; });
+    const perContractor = data.map(c => {
+      if (c.retention_only) {
+        return Object.assign({}, c, { cTotal:0, cPaid:byRef[c.ref]||0, cRem:-(byRef[c.ref]||0), pct:0, isOverpaid:(byRef[c.ref]||0)>0 });
+      }
+      const cTotal = c.contracts.reduce((a,b) => a + (b.grandTotal || 0), 0);
+      const cPaid = byRef[c.ref] || 0;
+      return Object.assign({}, c, { cTotal, cPaid, cRem:cTotal-cPaid, pct:cTotal>0?(cPaid/cTotal*100):0, isOverpaid:cPaid>cTotal });
+    });
+    const grandTotals = {
+      totalClaims: perContractor.reduce((s,c) => s + (c.retention_only ? 0 : c.cTotal), 0),
+      totalPaid: perContractor.reduce((s,c) => s + c.cPaid, 0),
+      totalRetention: data.reduce((s,c) => s + (c.retention_total || 0), 0)
+    };
+    grandTotals.balance = grandTotals.totalClaims - grandTotals.totalPaid;
+    return { perContractor, grandTotals };
+  }
+
   async function loadData() {
     try {
       const [d, p] = await Promise.all([
@@ -585,7 +608,7 @@
       _savedContractorsHTML = host.innerHTML;
       let html = '';
       retractorsWithRetention.forEach(c=>{
-        const pdfBtn = c.retention_memo ? `<button class="evidence-btn" onclick="window.showPDF('${esc(c.retention_memo)}','${esc(c.contractor)} - Retention Memo')">📄 View Retention Memo</button>` : '';
+        const pdfBtn = c.retention_memo ? `<button class="evidence-btn" onclick="window.showPDF('${esc(resolvePdfUrl(c.ref, c.retention_memo))}','${esc(c.contractor)} - Retention Memo')">📄 View Retention Memo</button>` : '';
         html += `<div class="contractor">
           <div class="contractor-head" style="flex-wrap:wrap">
             <div style="flex:1;min-width:300px">
@@ -653,21 +676,13 @@
 function renderDashboard() {
   // Contractors
   const host = document.getElementById("contractors");
-  data.forEach(c=>{
+  const { perContractor } = summarize(data, payments);
+  perContractor.forEach(c=>{
     if(c.retention_only) return; // Skip retention-only contractors in payment tab
-    let cTotal=0, cPaid=0;
+    const { cTotal, cPaid, cRem, pct, isOverpaid } = c;
 
-    // All contractors (including main)
-    cTotal = c.contracts.reduce((a,b)=>a+b.grandTotal,0);
-    const contractorPayments = payments.filter(p => p.contractorRef === c.ref);
-    const receivedTotal = contractorPayments.reduce((a,b)=>a+b.amount,0);
-    cPaid = receivedTotal > 0 ? receivedTotal : c.contracts.reduce((a,b)=>a+(b.paid||0),0);
-    const cRem = cTotal - cPaid;
-    const cRemPct = cTotal ? ((cRem / cTotal) * 100) : 0;
-
-    const isOverpaid = cTotal > 0 && cPaid > cTotal;
     const overpaidBadge = isOverpaid ? ` <span style="color:#ff4444;font-size:10px;font-weight:700;letter-spacing:1.5px;vertical-align:middle;background:rgba(255,68,68,0.1);padding:2px 8px;border:1px solid rgba(255,68,68,0.35);margin-left:8px">OVERPAID</span>` : "";
-    const paidPct = cTotal > 0 ? (cPaid / cTotal * 100) : 0;
+    const paidPct = pct;
     const isComplete = Math.round(paidPct) === 100;
     const barColor = isOverpaid ? "#cc2222" : (isComplete ? "#22aa22" : "#888888");
     const pctColor = isOverpaid ? "#ff4444" : "var(--gold)";
@@ -691,7 +706,7 @@ function renderDashboard() {
           <td class="num total" data-label="F Grand Total">${fmt(k.grandTotal)}</td>
           <td class="num paid" data-label="G Paid">${fmt(k.paid || 0)}</td>
           <td class="num" data-label="H Remaining">${fmt((k.grandTotal || 0) - (k.paid || 0))}</td>
-          <td style="text-align:center">${k.pdfUrl ? `<button onclick="showPDF('${k.pdfUrl}','${k.name}')" title="View PDF" style="background:none;border:none;cursor:pointer;color:var(--gold);font-size:16px;padding:0">📄</button>` : `<span style="color:rgba(201,169,97,0.2);font-size:12px">—</span>`}</td>
+          <td style="text-align:center">${k.pdfUrl ? `<button onclick="showPDF('${resolvePdfUrl(c.ref, k.pdfUrl)}','${k.name}')" title="View PDF" style="background:none;border:none;cursor:pointer;color:var(--gold);font-size:16px;padding:0">📄</button>` : `<span style="color:rgba(201,169,97,0.2);font-size:12px">—</span>`}</td>
         </tr>`;
     }).join("");
 
@@ -788,20 +803,10 @@ function renderDashboard() {
 
   // Excel Export function
   window.exportExcel = function(){
-    // Calculate payment summary
-    let totalClaims = 0, totalReceived = 0;
-    data.forEach(d => {
-      if(d.retention_only) return;
-      d.contracts.forEach(k => {
-        totalClaims += k.grandTotal || 0;
-      });
-      // Use documented payments for total received
-      const contractorPayments = payments.filter(p => p.contractorRef === d.ref);
-      if(contractorPayments.length > 0) {
-        totalReceived += contractorPayments.reduce((a,b) => a + b.amount, 0);
-      }
-    });
-    const balance = totalClaims - totalReceived;
+    const { perContractor, grandTotals } = summarize(data, payments);
+    const totalClaims = grandTotals.totalClaims;
+    const totalReceived = grandTotals.totalPaid;
+    const balance = grandTotals.balance;
     const balancePct = totalClaims > 0 ? (totalReceived / totalClaims * 100) : 0;
 
     // Create workbook
@@ -851,11 +856,11 @@ function renderDashboard() {
         ]);
       });
 
-      // Contractor subtotals
-      const cClaims = d.contracts.reduce((a,b) => a + (b.grandTotal || 0), 0);
-      const contractorPayments = payments.filter(p => p.contractorRef === d.ref);
-      const cPaid = contractorPayments.length > 0 ? contractorPayments.reduce((a,b) => a + b.amount, 0) : 0;
-      const cRemaining = cClaims - cPaid;
+      // Contractor subtotals (from summarize)
+      const c = perContractor.find(pc => pc.ref === d.ref);
+      const cClaims = c ? c.cTotal : 0;
+      const cPaid = c ? c.cPaid : 0;
+      const cRemaining = c ? c.cRem : 0;
 
       paymentData.push(['', 'Total Claim (Grand Total)', '', '', '', '', '', cClaims]);
       paymentData.push(['', 'Contract Payment', '', '', '', '', '', cPaid]);
