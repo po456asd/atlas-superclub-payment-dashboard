@@ -163,5 +163,16 @@
       "bankName": "K-BIZ",
       "chequeNo": "TRTS260518823436332"
     }
+  },
+  {
+    "contractorRef": "CT-TENYEAR",
+    "amount": 358800,
+    "date": "18 May 2026",
+    "evidence": {
+      "type": "bank-slip",
+      "image": "data/evidence/CT-TENYEAR-16.jpg",
+      "bankName": "SCB",
+      "chequeNo": "TRTS260518823991029"
+    }
   }
 ]
