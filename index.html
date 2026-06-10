@@ -481,16 +481,11 @@
       });
 
       // Summary
-      let gTotal=0, gPaid=0, contractCount=0;
+      let gTotal=0;
       data.forEach(c=>{
-        c.contracts.forEach(k=>{
-          gTotal += k.grandTotal;
-          gPaid += k.paid || 0;
-          contractCount++;
-        });
+        if(c.retention_only) return;
+        c.contracts.forEach(k=>{ gTotal += k.grandTotal; });
       });
-      const gRemain = gTotal - gPaid;
-      const gPct = gTotal ? (gPaid/gTotal*100) : 0;
 
       // Calculate total received from payments (filter by active contractors only)
       const activeContractorRefs = new Set(data.filter(d => !d.retention_only).map(d => d.ref));
@@ -555,6 +550,8 @@
       renderDashboard();
     } catch(e) {
       console.error('Failed to load data:', e);
+      const host = document.getElementById("paymentSummary");
+      if(host) host.innerHTML = '<p style="color:#ff4444;text-align:center;padding:40px;font-family:var(--font-head);letter-spacing:2px">FAILED TO LOAD DATA — check console</p>';
     }
   }
 
