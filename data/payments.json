@@ -1,0 +1,156 @@
+[
+  {
+    "contractorRef": "CT-BKD",
+    "amount": 4649856.39,
+    "date": "31 March 2026",
+    "evidence": {
+      "type": "bank-slip",
+      "image": "data/evidence/CT-BKD-1.jpg",
+      "bankName": "Bangkok Bank",
+      "chequeNo": "00044525"
+    }
+  },
+  {
+    "contractorRef": "CT-KONE",
+    "amount": 93090.0,
+    "date": "31 March 2026",
+    "evidence": {
+      "type": "bank-slip",
+      "image": "data/evidence/CT-KONE-2.jpg",
+      "bankName": "Bangkok Bank",
+      "chequeNo": "00044519"
+    }
+  },
+  {
+    "contractorRef": "CT-MAXTECH",
+    "amount": 29425.0,
+    "date": "31 March 2026",
+    "evidence": {
+      "type": "bank-slip",
+      "image": "data/evidence/CT-MAXTECH-3.jpg",
+      "bankName": "Bangkok Bank",
+      "chequeNo": "00044518"
+    }
+  },
+  {
+    "contractorRef": "CT-XTI",
+    "amount": 80424.45,
+    "date": "31 March 2026",
+    "evidence": {
+      "type": "bank-slip",
+      "image": "data/evidence/CT-XTI-4.jpg",
+      "bankName": "Bangkok Bank",
+      "chequeNo": "00044520"
+    }
+  },
+  {
+    "contractorRef": "CT-VJ",
+    "amount": 6420.0,
+    "date": "31 March 2026",
+    "evidence": {
+      "type": "bank-slip",
+      "image": "data/evidence/CT-VJ-5.jpg",
+      "bankName": "Bangkok Bank",
+      "chequeNo": "00044523"
+    }
+  },
+  {
+    "contractorRef": "CT-BIGANT",
+    "amount": 472940.0,
+    "date": "31 March 2026",
+    "evidence": {
+      "type": "bank-slip",
+      "image": "data/evidence/CT-BIGANT-6.jpg",
+      "bankName": "Bangkok Bank",
+      "chequeNo": "00044522"
+    }
+  },
+  {
+    "contractorRef": "CT-ITD",
+    "amount": 1526413.96,
+    "date": "31 March 2026",
+    "evidence": {
+      "type": "bank-slip",
+      "image": "data/evidence/CT-ITD-7.jpg",
+      "bankName": "Bangkok Bank",
+      "chequeNo": "00044524"
+    }
+  },
+  {
+    "contractorRef": "CT-MEASIA",
+    "amount": 3500581.34,
+    "date": "31 March 2026",
+    "evidence": {
+      "type": "bank-slip",
+      "image": "data/evidence/CT-MEASIA-8.jpg",
+      "bankName": "Bangkok Bank",
+      "chequeNo": "00044526"
+    }
+  },
+  {
+    "contractorRef": "CT-TENYEAR",
+    "amount": 1084194.15,
+    "date": "13 February 2026",
+    "evidence": {
+      "type": "bank-slip",
+      "image": "data/evidence/CT-TENYEAR-9.jpg",
+      "bankName": "Siam Commercial Bank PCL.",
+      "chequeNo": "N/A"
+    }
+  },
+  {
+    "contractorRef": "CT-ITD",
+    "amount": 2666464,
+    "date": "10 April 2026",
+    "evidence": {
+      "type": "bank-slip",
+      "image": "data/evidence/CT-ITD-10.jpg",
+      "bankName": "Bangkok Bank",
+      "chequeNo": "153309057-5 0153"
+    }
+  },
+  {
+    "contractorRef": "CT-ITD",
+    "amount": 2000000,
+    "date": "17 April 2026",
+    "evidence": {
+      "type": "bank-slip",
+      "image": "data/evidence/CT-ITD-11.jpg",
+      "bankName": "K-BIZ",
+      "chequeNo": "TRTS2604175462244087"
+    }
+  },
+  {
+    "contractorRef": "CT-ITD",
+    "amount": 2000000,
+    "date": "17 April 2026",
+    "evidence": {
+      "type": "bank-slip",
+      "image": "data/evidence/CT-ITD-12.jpg",
+      "bankName": "K-BIZ",
+      "chequeNo": "TRTS2604175462500001"
+    }
+  },
+  {
+    "contractorRef": "CT-ITD",
+    "amount": 333536,
+    "date": "17 April 2026",
+    "evidence": {
+      "type": "bank-slip",
+      "image": "data/evidence/CT-ITD-13.jpg",
+      "bankName": "K-BIZ",
+      "chequeNo": "TRTS2604175462536097"
+    }
+  },
+  {
+    "contractorRef": "CT-XTI",
+    "amount": 2992485.14,
+    "date": "27 January 2026",
+    "evidence": {
+      "type": "bank-slip",
+      "image": "data/evidence/CT-XTI-14.jpg",
+      "bankName": "Bangkok Bank",
+      "chequeNo": "4801 0044245"
+    }
+  }
+]
