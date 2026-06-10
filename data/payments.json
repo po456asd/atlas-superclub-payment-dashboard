@@ -152,5 +152,16 @@
       "bankName": "Bangkok Bank",
       "chequeNo": "4801 0044245"
     }
+  },
+  {
+    "contractorRef": "CT-BKD",
+    "amount": 2000000,
+    "date": "18 May 2026",
+    "evidence": {
+      "type": "bank-slip",
+      "image": "data/evidence/CT-BKD-15.jpg",
+      "bankName": "K-BIZ",
+      "chequeNo": "TRTS260518823436332"
+    }
   }
 ]
