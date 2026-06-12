@@ -278,7 +278,7 @@
         "name": "BKD VO of SI-050",
         "subject": "Payment Claim",
         "ref": "BKD/ASC/Payment/011",
-        "pdfUrl": "pdfs/3.BKD/BKD-ASC-Payment-011 (Payment request for job change, No. 2 VO of Final Account SI-050) R1(2).pdf",
+        "pdfUrl": "pdfs/3.BKD/BKD-ASC-Payment-011 (Payment request for job change, No. 2 VO of Final Account SI-050) R1.pdf",
         "beforeVat": 675998.4,
         "retention": 33799.92,
         "vat": 47319.89,
@@ -307,8 +307,7 @@
         "subTotal": 3501496.64,
         "whTax": 103911.07,
         "grandTotal": 3397585.57,
-        "paid": 0,
-        "note": "M&E-ASC-MEMO-042 changed price to HWG's calcuration"
+        "paid": 0
       },
       {
         "no": 13,
@@ -398,8 +397,7 @@
         "subTotal": 225286.9,
         "whTax": 0,
         "grandTotal": 225286.9,
-        "paid": 0,
-        "note": "Confirm amount Deduction for Unperformed Work"
+        "paid": 0
       },
       {
         "no": 19,
@@ -527,8 +525,7 @@
         "subTotal": 38038.5,
         "whTax": 1066.5,
         "grandTotal": 36972.0,
-        "paid": 0,
-        "note": "Unknown Status"
+        "paid": 0
       }
     ]
   },
@@ -551,8 +548,7 @@
         "subTotal": 0,
         "whTax": 0,
         "grandTotal": 0,
-        "paid": 0,
-        "note": "Request for payment in the past not on final payment account."
+        "paid": 0
       }
     ]
   }
